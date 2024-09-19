@@ -1,6 +1,6 @@
 <template>
 
-    <button @click="login()">log in</button>
+    <div>{{ $store.state.user.displayName }}</div>
 
 </template>
 
@@ -8,13 +8,9 @@
 export default {
   data() {
     return {
-
     }
   },
   methods: {
-    login() {
-        this.$store.dispatch('logIn')
-    }
   }
 }
 
