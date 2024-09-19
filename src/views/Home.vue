@@ -1,6 +1,6 @@
 <template>
 
-    <button @click="login()">log in</button>
+    <button @click="logIn()">log in</button>
 
 </template>
 
@@ -12,7 +12,7 @@ export default {
     }
   },
   methods: {
-    login() {
+    logIn() {
         this.$store.dispatch('logIn')
     }
   }

@@ -11,11 +11,15 @@ const store = createStore({
   state () {
     return {
       loaded: false,
+      user: null,
       setups: [],
       profileDetails: {},
     }
   },
   getters: {
+    getProfileDetails: state => user => {
+      return state.profileDetails[user]
+    },
   },
   mutations: {
     setLoggedInUser(state, user) {
@@ -25,11 +29,17 @@ const store = createStore({
     setLoaded(state) {
       state.loaded = true
     },
+    setProfDetails(state, { details, user }) {
+      state.profileDetails[user] = details
+    },
     initializeSetups(state, setups) {
       state.setups = setups
     },
     setProfDetails(state, { details, user }) {
       state.profileDetails[user] = details
+    },
+    logOut(state) {
+      state.loggedIn = false
     },
   },
   actions: {
@@ -41,8 +51,15 @@ const store = createStore({
         // SETUP PAGE OPENS AFTER LOG IN
         await router.push(`/setups/${context.state.user.uid}`)
         context.commit('setLoaded')
-        console.log(user.uid)
       })
+    },
+    changeDetails(context, { details, user }) {
+      context.commit('setProfDetails', { details, user })
+      setDoc(doc(db, "profileDetails", user), details);
+    },
+    logOut(context) {
+      router.push('/')
+      logOut()
     },
     async fetchUserDetails(context, user) {
       const q = query(collection(db, "profileDetails"), where("user", "==", user));
@@ -58,18 +75,7 @@ const store = createStore({
         const profileDetails = {
           user: uid,
           profName: displayName,
-          profPic: {
-            photoURL: photoURL,
-            profPicId: null
-          },
-          socialLinks: {
-            twitch: '',
-            twitter: '',
-            youtube: '',
-            discord: '',
-            facebook: '',
-            website: '',
-          },
+          photoURL: photoURL
         }
 
         context.dispatch('changeDetails', { details: profileDetails, user } )
