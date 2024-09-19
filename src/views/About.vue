@@ -1,8 +1,8 @@
 <template>
+    <br>
+    <button @click="changeToHi()">Hello</button>
 
-    <p>About</p>
-
-    <button @click="changeToHi()">hi!</button>
+    <p>{{ $store.state.hello }}</p>
 
 </template>
 
