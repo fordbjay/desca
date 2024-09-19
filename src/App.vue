@@ -6,6 +6,8 @@
 
 <router-view></router-view>
 
+<p>{{ $store.state.test }}</p>
+
 </template>
 
 <script setup>
