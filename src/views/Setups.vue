@@ -27,6 +27,8 @@
             :src="setup.imageURL"
             :alt="setup.imageURL"  
         />
+        <button @click="deleteSetup(setup.setupId)">delete</button>
+        <button @click="editSetup(setup.setupId)">edit</button>
     </div>
 
 </template>
@@ -67,6 +69,14 @@ export default {
             this.$store.dispatch('addSetup', setup)
 
             this.uploading = false
+        },
+        async deleteSetup(setupId) {
+            const user = this.$store.state.user
+            await this.$store.dispatch('deleteSetup', {user, setupId})
+        },
+        async editSetup(setupId) {
+            const user = this.$store.state.user
+            console.log('edit', user.uid, setupId)
         },
     },
     computed: {

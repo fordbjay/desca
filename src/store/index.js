@@ -44,6 +44,9 @@ const store = createStore({
     addSetup(state, setup) {
       state.setups.push(setup)
     },
+    deleteSetup(state, setupId) {
+      state.setups = state.setups.filter(setup => setup.setupId !== setupId)
+    },
     uploadProgress(state, progress) {
       console.log(progress)
       state.uploadProgress = progress
@@ -56,6 +59,7 @@ const store = createStore({
     },
   },
   actions: {
+    // LOG IN
     logIn(context) {
       login(async user => {
         context.commit('setLoggedInUser', user);
@@ -66,7 +70,7 @@ const store = createStore({
         context.commit('setLoaded')
       })
     },
-    changeDetails(context, { details, user }) {
+    setUserDetails(context, { details, user }) {
       context.commit('setUserDetails', { details, user })
       setDoc(doc(db, "userDetails", user), details);
     },
@@ -78,6 +82,12 @@ const store = createStore({
       context.commit('addSetup', setup)
       setDoc(doc(db, "setups", setup.setupId), setup);
       context.commit('resetUploadProgress')
+    },
+    deleteSetup(context, { user, setupId } ) {
+      const key = `${user.uid}/${setupId}`
+      deletePic(key)
+      context.commit('deleteSetup', setupId)
+      deleteDoc(doc(db, "setups", setupId))
     },
     uploadProgress(context, progress) {
       context.commit('uploadProgress', progress)
@@ -99,7 +109,7 @@ const store = createStore({
           photoURL: photoURL
         }
 
-        context.dispatch('changeDetails', { details: userDetails, user } )
+        context.dispatch('setUserDetails', { details: userDetails, user } )
       }
     },
     async fetchUserSetups(context, user) {
