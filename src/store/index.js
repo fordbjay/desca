@@ -32,13 +32,13 @@ const store = createStore({
     setLoaded(state) {
       state.loaded = true
     },
-    setProfDetails(state, { details, user }) {
+    setUserDetails(state, { details, user }) {
       state.userDetails[user] = details
     },
     initializeSetups(state, setups) {
       state.setups = setups
     },
-    setProfDetails(state, { details, user }) {
+    setUserDetails(state, { details, user }) {
       state.userDetails[user] = details
     },
     addSetup(state, setup) {
@@ -67,7 +67,7 @@ const store = createStore({
       })
     },
     changeDetails(context, { details, user }) {
-      context.commit('setProfDetails', { details, user })
+      context.commit('setUserDetails', { details, user })
       setDoc(doc(db, "userDetails", user), details);
     },
     logOut(context) {
@@ -89,7 +89,7 @@ const store = createStore({
 
       if (userDetailsDoc) {
           // IF USER EXISTS, LOAD DETAILS
-          context.commit('setProfDetails', { details: userDetailsDoc.data(), user })
+          context.commit('setUserDetails', { details: userDetailsDoc.data(), user })
       } else {
           // ELSE CREATE A NEW USER
         const {uid, displayName, photoURL} = context.state.user
