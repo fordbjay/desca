@@ -16,13 +16,13 @@
         >
     </label>
 
-    <div 
-        class="setup-links"
+    <div
+        style=""
         v-for="(setup, index) in $store.state.setups"
         :key="setup.setupId"
         >
         <img
-            style="width: 250px; height: 150px; object-fit: cover;"
+            style="width: 250px; height: 150px; object-fit: cover; display: block;"
             draggable="false"
             :src="setup.imageURL"
             :alt="setup.imageURL"  

@@ -4,7 +4,11 @@
 
     <div v-if="userDetails">
         <div>{{ userDetails.profName }}</div>
-        <img class="prof-pic" :src="userDetails.photoURL" :alt="userDetails.photoURL">
+        <img
+            :src="userDetails.photoURL"
+            :alt="userDetails.photoURL"
+            style="display: block;"
+        >
     </div>
     <div v-else>loading</div>
 
