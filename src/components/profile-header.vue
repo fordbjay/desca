@@ -1,7 +1,7 @@
 <template>
 
     <button @click="logOut()">log out</button>
-    <button v-if="this.$route.name != 'Setups'" @click="goToSetups()">go to setups</button>
+    <button v-if="this.$route.name != 'Setups'" @click="goToSetups()">setups</button>
 
     <div v-if="userDetails">
         <img

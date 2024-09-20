@@ -2,8 +2,6 @@
     
     <profileHeader/>
 
-    <p>SETUPS:</p>
-
     <label for="input" style="border: 1px solid;">
         {{!uploading ? 'upload' : uploadProgress}}
         <input
@@ -67,6 +65,8 @@ export default {
             }
 
             this.$store.dispatch('addSetup', setup)
+
+            this.$router.push(`/edit/${this.$store.state.user.uid}/${setupId}`)
 
             this.uploading = false
         },

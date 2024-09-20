@@ -20,6 +20,9 @@ const store = createStore({
     }
   },
   getters: {
+    setup: state => setupId => {
+      return state.setups.find(s => s.setupId === setupId)
+    },
     getuserDetails: state => user => {
       return state.userDetails[user]
     },
@@ -121,7 +124,6 @@ const store = createStore({
       context.commit('uploadProgress', progress)
     },
   }
-
 
 })
 
