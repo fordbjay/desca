@@ -1,6 +1,7 @@
 <template>
 
     <button @click="logOut()">log out</button>
+    <button v-if="this.$route.name != 'Setups'" @click="goToSetups()">go to setups</button>
 
     <div v-if="userDetails">
         <img
@@ -20,6 +21,9 @@ export default {
     methods: {
         logOut() {
             this.$store.dispatch('logOut')
+        },
+        goToSetups() {
+            this.$router.push(`/setups/${this.$store.state.user.uid}`)
         }
     },
     computed: {

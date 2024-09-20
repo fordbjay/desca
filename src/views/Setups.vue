@@ -16,8 +16,8 @@
         >
     </label>
 
+    <!-- IMAGE AND BUTTONS -->
     <div
-        style=""
         v-for="(setup, index) in $store.state.setups"
         :key="setup.setupId"
         >

@@ -2,8 +2,6 @@
 
     <profileHeader/>
 
-    <button @click="goToSetups()">go to setups</button>
-
     <p>edit</p>
 
 </template>
@@ -17,9 +15,7 @@ export default {
             profileHeader,
         },
     methods: {
-        goToSetups() {
-            this.$router.push(`/setups/${this.$store.state.user.uid}`)
-        }
+        
     }
 
 }
