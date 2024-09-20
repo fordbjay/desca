@@ -82,5 +82,4 @@ function uploadPic(key, image) {
     });
 }
 
-
 export { login, logOut, downloadPic, deletePic, uploadPic }

@@ -75,8 +75,8 @@ export default {
             await this.$store.dispatch('deleteSetup', {user, setupId})
         },
         async editSetup(setupId) {
-            const user = this.$store.state.user
-            console.log('edit', user.uid, setupId)
+            this.$router.push(`/edit/${this.$store.state.user.uid}/${setupId}`)
+
         },
     },
     computed: {

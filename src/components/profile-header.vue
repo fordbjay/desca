@@ -3,12 +3,12 @@
     <button @click="logOut()">log out</button>
 
     <div v-if="userDetails">
-        <div>{{ userDetails.profName }}</div>
         <img
-            :src="userDetails.photoURL"
-            :alt="userDetails.photoURL"
-            style="display: block;"
+        :src="userDetails.photoURL"
+        :alt="userDetails.photoURL"
+        style="display: block;"
         >
+        <div>{{ userDetails.profName }}</div>
     </div>
     <div v-else>loading</div>
 

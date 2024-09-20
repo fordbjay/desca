@@ -22,6 +22,11 @@ const routes = [
         name: 'Setups',
         component: () => import('../views/Setups.vue')
       },
+      {
+        path: '/edit/:user/:setupId',
+        name: 'Edit',
+        component: () => import('../views/Edit.vue')
+      },
 ]
 
 const router = createRouter({
