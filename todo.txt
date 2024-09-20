@@ -1,0 +1,7 @@
+profile header
+    picture
+    name
+
+setups
+    upload btn
+    

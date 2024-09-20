@@ -3,6 +3,8 @@ import { doc, getDocs, deleteDoc, updateDoc, collection, query, where, setDoc, g
 import { login, logOut } from '../firebase/firebase.js'
 import {  getAuth, onAuthStateChanged } from "firebase/auth";
 import router from '../router/index.js';
+import { downloadPic, deletePic, uploadPic} from '../firebase/manage-pic.js';
+
 
 const db = getFirestore();
 
@@ -14,6 +16,7 @@ const store = createStore({
       user: null,
       setups: [],
       profileDetails: {},
+      uploadProgress: null,
     }
   },
   getters: {
@@ -38,6 +41,16 @@ const store = createStore({
     setProfDetails(state, { details, user }) {
       state.profileDetails[user] = details
     },
+    addSetup(state, setup) {
+      state.setups.push(setup)
+    },
+    uploadProgress(state, progress) {
+      console.log(progress)
+      state.uploadProgress = progress
+    },
+    resetUploadProgress(state) {
+      state.uploadProgress = null
+    },
     logOut(state) {
       state.loggedIn = false
     },
@@ -60,6 +73,14 @@ const store = createStore({
     logOut(context) {
       router.push('/')
       logOut()
+    },
+    addSetup(context, setup) {
+      context.commit('addSetup', setup)
+      setDoc(doc(db, "setups", setup.setupId), setup);
+      context.commit('resetUploadProgress')
+    },
+    uploadProgress(context, progress) {
+      context.commit('uploadProgress', progress)
     },
     async fetchUserDetails(context, user) {
       const q = query(collection(db, "profileDetails"), where("user", "==", user));
