@@ -15,13 +15,13 @@ const store = createStore({
       loaded: false,
       user: null,
       setups: [],
-      profileDetails: {},
+      userDetails: {},
       uploadProgress: null,
     }
   },
   getters: {
-    getProfileDetails: state => user => {
-      return state.profileDetails[user]
+    getuserDetails: state => user => {
+      return state.userDetails[user]
     },
   },
   mutations: {
@@ -33,13 +33,13 @@ const store = createStore({
       state.loaded = true
     },
     setProfDetails(state, { details, user }) {
-      state.profileDetails[user] = details
+      state.userDetails[user] = details
     },
     initializeSetups(state, setups) {
       state.setups = setups
     },
     setProfDetails(state, { details, user }) {
-      state.profileDetails[user] = details
+      state.userDetails[user] = details
     },
     addSetup(state, setup) {
       state.setups.push(setup)
@@ -68,7 +68,7 @@ const store = createStore({
     },
     changeDetails(context, { details, user }) {
       context.commit('setProfDetails', { details, user })
-      setDoc(doc(db, "profileDetails", user), details);
+      setDoc(doc(db, "userDetails", user), details);
     },
     logOut(context) {
       router.push('/')
@@ -83,23 +83,23 @@ const store = createStore({
       context.commit('uploadProgress', progress)
     },
     async fetchUserDetails(context, user) {
-      const q = query(collection(db, "profileDetails"), where("user", "==", user));
+      const q = query(collection(db, "userDetails"), where("user", "==", user));
       const querySnapshot = await getDocs(q);
-      const profileDetailsDoc = querySnapshot.docs[0]
+      const userDetailsDoc = querySnapshot.docs[0]
 
-      if (profileDetailsDoc) {
+      if (userDetailsDoc) {
           // IF USER EXISTS, LOAD DETAILS
-          context.commit('setProfDetails', { details: profileDetailsDoc.data(), user })
+          context.commit('setProfDetails', { details: userDetailsDoc.data(), user })
       } else {
           // ELSE CREATE A NEW USER
         const {uid, displayName, photoURL} = context.state.user
-        const profileDetails = {
+        const userDetails = {
           user: uid,
           profName: displayName,
           photoURL: photoURL
         }
 
-        context.dispatch('changeDetails', { details: profileDetails, user } )
+        context.dispatch('changeDetails', { details: userDetails, user } )
       }
     },
     async fetchUserSetups(context, user) {

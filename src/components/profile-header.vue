@@ -2,9 +2,9 @@
 
     <button @click="logOut()">log out</button>
 
-    <div v-if="profileDetails">
-        <div>{{ profileDetails.profName }}</div>
-        <img class="prof-pic" :src="profileDetails.photoURL" :alt="profileDetails.photoURL">
+    <div v-if="userDetails">
+        <div>{{ userDetails.profName }}</div>
+        <img class="prof-pic" :src="userDetails.photoURL" :alt="userDetails.photoURL">
     </div>
     <div v-else>loading</div>
 
@@ -19,8 +19,8 @@ export default {
         }
     },
     computed: {
-        profileDetails() {
-            return this.$store.getters.getProfileDetails(this.$route.params.user)
+        userDetails() {
+            return this.$store.getters.getuserDetails(this.$route.params.user)
         }
     }
 }
