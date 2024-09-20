@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getStorage, ref, getDownloadURL, deleteObject, uploadBytes, uploadBytesResumable } from "firebase/storage";
+
+import store from './store/index.js'
+
 
 // FIREBASE
 const firebaseConfig = {
@@ -16,6 +20,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+const storage = getStorage();
+
+// LOG IN / OUT
 function login(callback) {
     const provider = new GoogleAuthProvider();
     // authenticate
@@ -40,9 +47,40 @@ function login(callback) {
         });
 
 }
-
 function logOut() {
     signOut(auth).then(() => location.reload())
 }
 
-export { login, logOut }
+// MANAGE PIC
+async function downloadPic(key) {
+    const url = await getDownloadURL(ref(storage, key))
+    return url
+}
+
+function deletePic(key) {
+    const pic = ref(storage, key);
+
+    deleteObject(pic).then(() => {
+        console.log('deleted successfully')
+    }).catch((error) => {
+        console.log(error)
+    });    
+}
+
+function uploadPic(key, image) {
+    const storage = getStorage();
+    const storageRef = ref(storage, key);
+    const uploadTask = uploadBytesResumable(storageRef, image)
+
+    uploadTask.on('state_changed', (snapshot) => {
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        store.dispatch('uploadProgress', progress)
+    })
+    return uploadTask.then((snapshot) => {
+      store.dispatch('uploadProgress', "Uploaded!")
+      console.log('uploaded successfully')
+    });
+}
+
+
+export { login, logOut, downloadPic, deletePic, uploadPic }

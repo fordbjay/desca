@@ -35,7 +35,7 @@
 
 <script>
 import profileHeader from '../components/profile-header.vue'
-import {uploadPic, downloadPic} from "../firebase/manage-pic.js"
+import {uploadPic, downloadPic} from "../firebase"
 
 export default {
     data() {
