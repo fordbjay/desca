@@ -1,6 +1,6 @@
 <template>
 
-    <p>items</p>
+    <!-- <p>items</p> -->
 
 </template>
 

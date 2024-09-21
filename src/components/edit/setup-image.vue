@@ -6,8 +6,23 @@
         draggable="false"
         @click="addItem"
         :src="imageURL"
+        style="cursor: crosshair"
     />
     <div v-else>loading</div>
+
+    <div v-if="edit">
+
+        <select name="categories" id="categories">
+            <option disabled selected>category</option>
+            <option v-for="category in categories" :value="category">{{ category }}</option>
+        </select>
+
+        <input placeholder="info" id="category" type="text">
+
+        <button>save</button>
+        <button @click="this.edit = false">close</button>
+    
+    </div>
 
 </template>
 
@@ -27,6 +42,8 @@ export default {
             imageURL: null,
             setup,
             displayedItemIndex: null,
+            edit: false,
+            categories: ['accessory','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker','camera',]
         }
     },
     methods: {
@@ -36,6 +53,7 @@ export default {
             this.imageURL = url
         },
         addItem(e) {
+            this.edit = true
             // rect compensates for image position on page
             const rect = e.target.getBoundingClientRect()
             const x = e.clientX - rect.left
