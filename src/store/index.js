@@ -32,6 +32,7 @@ const store = createStore({
     },
   },
   mutations: {
+    // LOG IN / OUT
     setLoggedInUser(state, user) {
       state.user = user;
       state.loggedIn = true;
@@ -48,6 +49,11 @@ const store = createStore({
     setUserDetails(state, { details, user }) {
       state.userDetails[user] = details
     },
+    logOut(state) {
+      state.loggedIn = false
+    },
+
+    // SETUP MANAGEMENT
     addSetup(state, setup) {
       state.setups.push(setup)
     },
@@ -60,9 +66,14 @@ const store = createStore({
     resetUploadProgress(state) {
       state.uploadProgress = null
     },
-    logOut(state) {
-      state.loggedIn = false
+    
+    // ITEMS MANAGEMENT
+    setItems(state, { items, setupId }) {
+      state.setups.find(s => s.setupId === setupId).items = items
+      console.log(state.setups)
     },
+
+
   },
   actions: {
     // LOG IN / LOG OUT
@@ -127,10 +138,11 @@ const store = createStore({
     uploadProgress(context, progress) {
       context.commit('uploadProgress', progress)
     },
-    // EDITING ITEMS
+
+    // ITEMS MANAGEMENT
     addItem(context, { item, setupId }) {
       const items = [...context.getters.setup(setupId).items, copy(item)]
-      console.log(items)
+      context.commit('setItems', { items, setupId })
     }
 
   }

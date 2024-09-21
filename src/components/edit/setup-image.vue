@@ -1,8 +1,10 @@
 <template>
 
+<div class="main-container">
+
     <img
         v-if="imageURL"
-        class="image"
+        class="main-image"
         draggable="false"
         @click="addItem"
         :src="imageURL"
@@ -10,19 +12,21 @@
     />
     <div v-else>loading</div>
 
-    <div v-if="edit">
+    <div class="edit-container" v-if="edit">
+        <div class="edit-box">
+            <select name="categories" id="categories">
+                <option disabled selected>category</option>
+                <option v-for="category in categories" :value="category">{{ category }}</option>
+            </select>
 
-        <select name="categories" id="categories">
-            <option disabled selected>category</option>
-            <option v-for="category in categories" :value="category">{{ category }}</option>
-        </select>
+            <input placeholder="info" id="category" type="text">
 
-        <input placeholder="info" id="category" type="text">
-
-        <button>save</button>
-        <button @click="this.edit = false">close</button>
-    
+            <button @click="saveItem()">save</button>
+            <button @click="this.edit = false">close</button>
+        </div>
     </div>
+
+</div>
 
 </template>
 
@@ -43,6 +47,7 @@ export default {
             setup,
             displayedItemIndex: null,
             edit: false,
+            item: {},
             categories: ['accessory','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker','camera',]
         }
     },
@@ -69,7 +74,10 @@ export default {
                 y,
             }
             
-            this.$store.dispatch('addItem', { item, setupId })
+            this.item = item
+            console.log(this.item)
+
+            // this.$store.dispatch('addItem', { item, setupId })
         },
 
     },
@@ -84,11 +92,33 @@ export default {
 
 <style scoped>
 
-.image {
+.main-container {
     width: 650px;
-    height: 450px;
-    object-fit: cover;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-image {
+    width: 100%;
     display: block;
+}
+
+.edit-container {
+    position: absolute;
+    background-color: rgba(255,255,255,0.5);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.edit-box {
+    display: flex;
+    flex-direction: column;
 }
 
 </style>
