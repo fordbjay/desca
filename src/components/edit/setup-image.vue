@@ -4,6 +4,7 @@
         v-if="imageURL"
         class="image"
         draggable="false"
+        @click="addItem"
         :src="imageURL"
     />
     <div v-else>loading</div>
@@ -25,6 +26,7 @@ export default {
         return {
             imageURL: null,
             setup,
+            displayedItemIndex: null,
         }
     },
     methods: {
@@ -33,6 +35,31 @@ export default {
             const url = await downloadPic(key)
             this.imageURL = url
         },
+        addItem(e) {
+            // rect compensates for image position on page
+            const rect = e.target.getBoundingClientRect()
+            const x = e.clientX - rect.left
+            const y = e.clientY - rect.top
+            
+            this.displayedItemIndex = this.currentSetup.items.length
+            
+            const setupId = this.$route.params.setupId
+            const item = {
+                category: '',
+                info: '',
+                x,
+                y,
+            }
+            
+            this.$store.dispatch('addItem', { item, setupId })
+        },
+
+    },
+    computed: {
+        currentSetup() {
+            return this.$store.getters.setup(this.$route.params.setupId)
+        },
+
     }
 }
 </script>

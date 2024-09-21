@@ -8,6 +8,10 @@ import { downloadPic, deletePic, uploadPic} from '../firebase';
 
 const db = getFirestore();
 
+function copy(value) {
+  return JSON.parse(JSON.stringify(value))
+}
+
 // Create a new store instance.
 const store = createStore({
   state () {
@@ -123,6 +127,12 @@ const store = createStore({
     uploadProgress(context, progress) {
       context.commit('uploadProgress', progress)
     },
+    // EDITING ITEMS
+    addItem(context, { item, setupId }) {
+      const items = [...context.getters.setup(setupId).items, copy(item)]
+      console.log(items)
+    }
+
   }
 
 })

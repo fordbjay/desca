@@ -3,15 +3,13 @@
     <profileHeader/>
 
     <!-- UPLOAD BUTTON -->
-    <label for="upload">{{uploadProgress}}</label>
+    <span>{{uploadProgress}}</span>
     <input
-        id="upload"
-        type="file"
-        @change="makeNewSetup"
-        accept=".jpg, .jpeg, .png"
-        :disabled="uploading"
+    type="file"
+    @change="makeNewSetup"
+    accept=".jpg, .jpeg, .png"
+    :disabled="uploading"
     >
-    
 
     <!-- IMAGE AND EDIT BUTTONS -->
     <div
