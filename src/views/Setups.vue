@@ -2,23 +2,22 @@
     
     <profileHeader/>
 
-    <label for="input" style="border: 1px solid;">
-        {{!uploading ? 'upload' : uploadProgress}}
-        <input
-            id="input"
-            type="file"
-            @change="makeNewSetup"
-            accept=".jpg, .jpeg, .png"
-            style="display: none;"
-            :disabled="uploading"
-        >
-    </label>
+    <!-- UPLOAD BUTTON -->
+    <label for="upload">{{uploadProgress}}</label>
+    <input
+        id="upload"
+        type="file"
+        @change="makeNewSetup"
+        accept=".jpg, .jpeg, .png"
+        :disabled="uploading"
+    >
+    
 
-    <!-- IMAGE AND BUTTONS -->
+    <!-- IMAGE AND EDIT BUTTONS -->
     <div
         v-for="(setup, index) in $store.state.setups"
         :key="setup.setupId"
-        >
+    >
         <img
             style="width: 250px; height: 150px; object-fit: cover; display: block;"
             draggable="false"
@@ -28,6 +27,7 @@
         <button @click="deleteSetup(setup.setupId)">delete</button>
         <button @click="editSetup(setup.setupId)">edit</button>
     </div>
+    
 
 </template>
 
