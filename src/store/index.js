@@ -68,8 +68,8 @@ const store = createStore({
     },
     
     // ITEMS MANAGEMENT
-    saveItem(state, {setupId, item}) {
-      state.setups.find(s => s.setupId === setupId).items[item.index] = copy(item)
+    saveItem(state, {index, setupId, item}) {
+      state.setups.find(s => s.setupId === setupId).items[index] = copy(item)
     },
 
 
@@ -139,13 +139,10 @@ const store = createStore({
     },
 
     // ITEMS MANAGEMENT
-    async saveItem(context, {item, setupId }) {
-      context.commit('saveItem', {setupId, item})
+    async saveItem(context, {index, item, setupId }) {
+      context.commit('saveItem', {index, setupId, item})
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items });
-
-      // const items = [...context.getters.setup(setupId).items, copy(item)]
-      // context.commit('setItems', { items, setupId })
-    }
+    },
 
   }
 

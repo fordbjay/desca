@@ -17,8 +17,8 @@
                 :style="{
                     position: 'absolute',
                     color: 'red',
-                    top: (item.y-10) + 'px',
-                    left: (item.x-5) + 'px'
+                    top: (item.y-8) + 'px',
+                    left: (item.x-7) + 'px'
                 }"
             >
             &#10005;
@@ -26,7 +26,7 @@
 
             <div style="z-index: 1000">
                 <select v-model="item.category" name="categories" id="categories">
-                    <option disabled>category</option>
+                    <option disabled value="">category</option>
                     <option v-for="category in categories" :value="category">{{ category }}</option>
                 </select>
 
@@ -36,6 +36,13 @@
                 <button @click="closeEdit()">close</button>
             </div>
         </div>
+
+        <!-- item markers -->
+        <div v-for="item in $store.getters.setup($route.params.setupId).items" :key="item.id">
+            <div :style="{ position: 'absolute', color: 'white', top: item.y + 'px', left: item.x + 'px', transform: 'translate(-7px, -8px)' }">
+        &#10005;
+        </div>
+</div>
 
     </div>
 
@@ -58,53 +65,55 @@ export default {
         return {
             imageURL: null,
             setup,
-            itemIndex: null,
             edit: false,
-            item: {},
+            item: {
+                category: '',
+                info: '',
+                x: null,
+                y: null,
+            },
             categories: ['accessory','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker','camera',]
         }
     },
     methods: {
         async refreshImageURL() {
-            const key = `${this.setup.user}/${this.$route.params.setupId}`
-            const url = await downloadPic(key)
-            this.imageURL = url
+            const key = `${this.setup.user}/${this.$route.params.setupId}`;
+            const url = await downloadPic(key);
+            this.imageURL = url;
         },
         addItem(e) {
-            this.edit = true
+            this.edit = true;
 
             // rect compensates for image position on page
-            const rect = e.target.getBoundingClientRect()
-            const x = e.clientX - rect.left
-            const y = e.clientY - rect.top
-            
-            const setupId = this.$route.params.setupId
-            const item = {
-                ...this.item,
-                index: this.currentSetup.items.length,
+            const rect = e.target.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            this.item = {
+                category: this.item.category || '',
+                info: this.item.info || '',
                 x,
                 y,
-            }
-            
-            this.item = item
+            };
+        },
+        resetItem() {
+            this.item = {
+                category: '',
+                info: '',
+                x: null,
+                y: null,
+            };
         },
         closeEdit() {
             this.edit = false;
-            this.item = {}
+            this.resetItem()
         },
         saveItem() {
-            this.$store.dispatch('saveItem', { setupId: this.currentSetup.setupId, item: this.item })
+            this.$store.dispatch('saveItem', { index: this.setup.items.length, setupId: this.setup.setupId, item: this.item });
             this.edit = false;
-            this.item = {}
+            this.resetItem()
         }
-
     },
-    computed: {
-        currentSetup() {
-            return this.$store.getters.setup(this.$route.params.setupId)
-        },
-
-    }
 }
 </script>
 
