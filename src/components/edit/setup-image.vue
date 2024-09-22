@@ -39,10 +39,11 @@
 
         <!-- item markers -->
         <div v-for="item in $store.getters.setup($route.params.setupId).items" :key="item.id">
-            <div :style="{ position: 'absolute', color: 'white', top: item.y + 'px', left: item.x + 'px', transform: 'translate(-7px, -8px)' }">
-        &#10005;
+            <div class="item-markers" :style="{ top: item.y + 'px', left: item.x + 'px' }">
+            &#10005;
+            </div>
+
         </div>
-</div>
 
     </div>
 
@@ -140,6 +141,12 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.item-markers {
+    position: absolute;
+    color: white;
+    transform: translate(-7px, -8px);
 }
 
 </style>

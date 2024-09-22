@@ -1,12 +1,12 @@
 <template>
 
-    <div v-for="item in $store.getters.setup($route.params.setupId).items">
+    <div v-for="item, index in $store.getters.setup($route.params.setupId).items">
         <p>{{item.category}}</p>
         <p>{{ item.info }}</p>
         <p>{{ item.x }}, {{ item.y }}</p>
 
-        <button @click="editItem()">Edit</button>
-        <button @click="deleteItem()">delete</button>
+        <button @click="editItem(index)">Edit</button>
+        <button @click="deleteItem(index)">delete</button>
     </div>
 
 </template>
@@ -14,11 +14,11 @@
 <script>
 export default {
     methods: {
-        editItem() {
-            console.log('edit')
+        editItem(index) {
+            console.log('edit', index)
         },
-        deleteItem() {
-            console.log('delete')
+        deleteItem(index) {
+            this.$store.dispatch('removeItem', { setupId: this.$route.params.setupId, index })
         }
     }
 }
