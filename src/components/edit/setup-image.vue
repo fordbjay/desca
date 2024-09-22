@@ -17,29 +17,29 @@
                 :style="{
                     position: 'absolute',
                     color: 'red',
-                    top: (item.y-8) + 'px',
-                    left: (item.x-7) + 'px'
+                    top: (itemToEdit.y-8) + 'px',
+                    left: (itemToEdit.x-7) + 'px'
                 }"
             >
             &#10005;
             </div>
 
             <div style="z-index: 1000">
-                <select v-model="item.category" name="categories" id="categories">
+                <select v-model="itemToEdit.category" name="categories" id="categories">
                     <option disabled value="">category</option>
                     <option v-for="category in categories" :value="category">{{ category }}</option>
                 </select>
 
-                <input v-model="item.info" placeholder="info" id="category" type="text">
+                <input v-model="itemToEdit.info" placeholder="info" id="category" type="text">
 
                 <button @click="saveItem()">save</button>
-                <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
                 <button @click="resetItem()">&#10005;</button>
+                <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
             </div>
         </div>
 
         <!-- item markers -->
-        <div v-for="item,index in $store.getters.setup($route.params.setupId).items" :key="item.id">
+        <div v-for="item, index in $store.getters.setup($route.params.setupId).items" :key="item.id">
             <div @click="editItem(item, index)" class="item-markers" :style="{ top: item.y + 'px', left: item.x + 'px' }">
             &#10005;
             </div>
@@ -69,7 +69,7 @@ export default {
             setup,
             editing: false,
             editIndex: null,
-            item: {
+            itemToEdit: {
                 category: '',
                 info: '',
                 x: null,
@@ -92,9 +92,9 @@ export default {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            this.item = {
-                category: this.item.category,
-                info: this.item.info,
+            this.itemToEdit = {
+                category: this.itemToEdit.category,
+                info: this.itemToEdit.info,
                 x,
                 y,
             };
@@ -102,7 +102,7 @@ export default {
         resetItem() {
             this.editing = false;
             this.editIndex = null;
-            this.item = {
+            this.itemToEdit = {
                 category: '',
                 info: '',
                 x: null,
@@ -111,13 +111,13 @@ export default {
         },
         saveItem() {
             const indexToChange = this.editIndex != null ? this.editIndex : this.setup.items.length
-            this.$store.dispatch('saveItem', { index: indexToChange, setupId: this.setup.setupId, item: this.item });
+            this.$store.dispatch('saveItem', { index: indexToChange, setupId: this.setup.setupId, item: this.itemToEdit });
             this.resetItem()
         },
-        editItem(item, index) {
+        editItem(item,index) {
             this.editIndex = index
             this.editing = true
-            this.item = {
+            this.itemToEdit = {
                 category: item.category,
                 info: item.info,
                 x: item.x,
