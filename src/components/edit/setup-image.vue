@@ -11,7 +11,7 @@
         />
 
         <!-- edit box -->
-        <div class="edit-container" v-if="edit">
+        <div class="edit-container" v-if="editing">
             <!-- temp item position -->
             <div
                 :style="{
@@ -33,13 +33,14 @@
                 <input v-model="item.info" placeholder="info" id="category" type="text">
 
                 <button @click="saveItem()">save</button>
-                <button @click="closeEdit()">close</button>
+                <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
+                <button @click="resetItem()">&#10005;</button>
             </div>
         </div>
 
         <!-- item markers -->
-        <div v-for="item in $store.getters.setup($route.params.setupId).items" :key="item.id">
-            <div class="item-markers" :style="{ top: item.y + 'px', left: item.x + 'px' }">
+        <div v-for="item,index in $store.getters.setup($route.params.setupId).items" :key="item.id">
+            <div @click="editItem(item, index)" class="item-markers" :style="{ top: item.y + 'px', left: item.x + 'px' }">
             &#10005;
             </div>
 
@@ -66,7 +67,8 @@ export default {
         return {
             imageURL: null,
             setup,
-            edit: false,
+            editing: false,
+            editIndex: null,
             item: {
                 category: '',
                 info: '',
@@ -83,7 +85,7 @@ export default {
             this.imageURL = url;
         },
         addItem(e) {
-            this.edit = true;
+            this.editing = true;
 
             // rect compensates for image position on page
             const rect = e.target.getBoundingClientRect();
@@ -91,13 +93,15 @@ export default {
             const y = e.clientY - rect.top;
 
             this.item = {
-                category: this.item.category || '',
-                info: this.item.info || '',
+                category: this.item.category,
+                info: this.item.info,
                 x,
                 y,
             };
         },
         resetItem() {
+            this.editing = false;
+            this.editIndex = null;
             this.item = {
                 category: '',
                 info: '',
@@ -105,13 +109,23 @@ export default {
                 y: null,
             };
         },
-        closeEdit() {
-            this.edit = false;
+        saveItem() {
+            const indexToChange = this.editIndex != null ? this.editIndex : this.setup.items.length
+            this.$store.dispatch('saveItem', { index: indexToChange, setupId: this.setup.setupId, item: this.item });
             this.resetItem()
         },
-        saveItem() {
-            this.$store.dispatch('saveItem', { index: this.setup.items.length, setupId: this.setup.setupId, item: this.item });
-            this.edit = false;
+        editItem(item, index) {
+            this.editIndex = index
+            this.editing = true
+            this.item = {
+                category: item.category,
+                info: item.info,
+                x: item.x,
+                y: item.y,
+            };
+        },
+        deleteItem() {
+            this.$store.dispatch('deleteItem', { setupId: this.$route.params.setupId, index: this.editIndex })
             this.resetItem()
         }
     },
@@ -145,8 +159,9 @@ export default {
 
 .item-markers {
     position: absolute;
-    color: white;
+    color: green;
     transform: translate(-7px, -8px);
+    cursor: pointer;
 }
 
 </style>

@@ -32,7 +32,7 @@ const store = createStore({
     },
   },
   mutations: {
-    // LOG IN / OUT
+    // LOG IN / OUT MUTATIONS
     setLoggedInUser(state, user) {
       state.user = user;
       state.loggedIn = true;
@@ -53,7 +53,7 @@ const store = createStore({
       state.loggedIn = false
     },
 
-    // SETUP MANAGEMENT
+    // SETUP MUTATIONS
     addSetup(state, setup) {
       state.setups.push(setup)
     },
@@ -67,18 +67,18 @@ const store = createStore({
       state.uploadProgress = null
     },
     
-    // ITEMS MANAGEMENT
+    // ITEM MUTATIONS
     saveItem(state, {index, setupId, item}) {
       state.setups.find(s => s.setupId === setupId).items[index] = copy(item)
     },
-    removeItem(state, {setupId, index}) {
+    deleteItem(state, {setupId, index}) {
       state.setups.find(s => s.setupId === setupId).items.splice(index, 1)
     },
 
 
   },
   actions: {
-    // LOG IN / LOG OUT
+    // LOG IN / LOG OUT ACTIONS
     logIn(context) {
       login(async user => {
         context.commit('setLoggedInUser', user);
@@ -125,7 +125,7 @@ const store = createStore({
       context.commit('initializeSetups', setups)
     },
 
-    // SETUP MANAGEMENT
+    // SETUP ACTIONS
     addSetup(context, setup) {
       context.commit('addSetup', setup)
       setDoc(doc(db, "setups", setup.setupId), setup);
@@ -141,13 +141,13 @@ const store = createStore({
       context.commit('uploadProgress', progress)
     },
 
-    // ITEMS MANAGEMENT
+    // ITEM ACTIONS
     async saveItem(context, {index, item, setupId }) {
       context.commit('saveItem', {index, setupId, item})
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items });
     },
-    async removeItem(context, {item, setupId, index }) {
-      context.commit('removeItem', {item, setupId, index });
+    async deleteItem(context, {item, setupId, index }) {
+      context.commit('deleteItem', {item, setupId, index });
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items})
     },
 
