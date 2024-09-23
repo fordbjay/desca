@@ -35,28 +35,42 @@
                 <button @click="saveItem()">{{ this.editIndex != null ? 'update' : 'save'}}</button>
                 <button @click="resetItem()">&#10005;</button>
                 <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
+                <p style="color: white;">x{{ itemToEdit.x }}, y{{ itemToEdit.y }}</p>
             </div>
         </div>
 
         <!-- item markers -->
         <div v-for="item, index in $store.getters.setup($route.params.setupId).items" :key="item.id">
-            <div @click="editItem(item, index)" class="item-markers" :style="{ top: item.y + 'px', left: item.x + 'px' }">
+            <div @click="editItem(item,index)" class="item-markers" :style="{ top: item.y + 'px', left: item.x + 'px' }">
             &#10005;
             </div>
 
         </div>
 
+        <!-- <items :setupItems="setup.items" @editItem="getItem" /> -->
+
     </div>
 
     <div v-else>loading</div>
+
+    <!-- ITEM LIST -->
+    <!-- <div v-for="item, index in $store.getters.setup($route.params.setupId).items">
+        <b>{{ item.category }}</b>
+        {{ item.info }}
+        <button @click="editItem(item,index)">edit</button>
+    </div> -->
+
+    <items :setupItems="setup.items" @editItem="editItem" />
 
 </template>
 
 <script>
 import { downloadPic } from "../../firebase.js"
+import items from './items.vue';
+
 
 export default {
-    components: {
+    components: { items
     },  
     async created() {
         await this.refreshImageURL()
@@ -75,7 +89,7 @@ export default {
                 x: null,
                 y: null,
             },
-            categories: ['accessory','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker','camera',]
+            categories: ['accessory','camera','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker',]
         }
     },
     methods: {
@@ -161,7 +175,7 @@ export default {
 
 .item-markers {
     position: absolute;
-    color: green;
+    color: white;
     transform: translate(-7px, -8px);
     cursor: pointer;
 }

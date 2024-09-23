@@ -4,7 +4,7 @@
 
     <setupImage/>
 
-    <items/>
+    <!-- <items/> -->
 
 </template>
 
