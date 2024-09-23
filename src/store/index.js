@@ -21,6 +21,7 @@ const store = createStore({
       setups: [],
       userDetails: {},
       uploadProgress: null,
+      editing: true,
     }
   },
   getters: {

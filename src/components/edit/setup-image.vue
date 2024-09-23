@@ -32,7 +32,7 @@
 
                 <input v-model="itemToEdit.info" placeholder="info" id="category" type="text">
 
-                <button @click="saveItem()">save</button>
+                <button @click="saveItem()">{{ this.editIndex != null ? 'update' : 'save'}}</button>
                 <button @click="resetItem()">&#10005;</button>
                 <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
             </div>
@@ -86,7 +86,7 @@ export default {
         },
         addItem(e) {
             this.editing = true;
-
+            this.editIndex = null;
             // rect compensates for image position on page
             const rect = e.target.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -117,12 +117,14 @@ export default {
         editItem(item,index) {
             this.editIndex = index
             this.editing = true
+
             this.itemToEdit = {
                 category: item.category,
                 info: item.info,
                 x: item.x,
                 y: item.y,
             };
+
         },
         deleteItem() {
             this.$store.dispatch('deleteItem', { setupId: this.$route.params.setupId, index: this.editIndex })
