@@ -1,6 +1,6 @@
 <template>
 
-    <profileHeader/>
+    <navBar/>
 
     <setupImage/>
 
@@ -9,12 +9,11 @@
 </template>
 
 <script>
-import profileHeader from '../components/profile-header.vue';
-import setupImage from '../components/edit/setup-image.vue';
-import items from '../components/edit/items.vue';
+import navBar from '../components/nav-bar.vue';
+import setupImage from '../components/edit-setup.vue';
 
 export default {
-    components: { profileHeader, setupImage, items },
+    components: { navBar, setupImage },
 }
 </script>
 

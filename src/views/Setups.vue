@@ -1,6 +1,6 @@
 <template>
     
-    <profileHeader/>
+    <navBar/>
 
     <!-- UPLOAD BUTTON -->
     <span>{{uploadProgress}}</span>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import profileHeader from '../components/profile-header.vue'
+import navBar from '../components/nav-bar.vue'
 import {uploadPic, downloadPic} from "../firebase"
 
 export default {
@@ -40,7 +40,7 @@ export default {
         }
     },
     components: {
-        profileHeader,
+        navBar,
     },
     methods: {
         async makeNewSetup(event) {

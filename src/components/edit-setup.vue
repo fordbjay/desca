@@ -1,6 +1,7 @@
 <template>
 
     <div class="main-container" v-if="imageURL">
+        
         <!-- main image -->
         <img
             class="main-image"
@@ -9,21 +10,22 @@
             :src="imageURL"
             style="cursor: crosshair"
         />
-
-        <!-- edit box -->
-        <div class="edit-container" v-if="editing">
-            <!-- temp item position -->
+        <!-- item markers -->
+        <div
+            v-for="(item, index) in this.itemsToDisplay"
+            :key="item.id"
+        >
             <div
-                :style="{
-                    position: 'absolute',
-                    color: 'red',
-                    top: (itemToEdit.y-8) + 'px',
-                    left: (itemToEdit.x-7) + 'px'
-                }"
+                class="item-markers"
+                :style="{ top: item.y-9.25 + 'px', left: item.x-6.09 + 'px', color: this.editing ? 'red' : 'white' }"
+                @click="editItem(item, index)"
             >
             &#10005;
             </div>
-
+        </div>
+        <!-- edit box -->
+        <div class="edit-container" v-if="editing">
+            <!-- details box -->
             <div style="z-index: 1000">
                 <select v-model="itemToEdit.category" name="categories" id="categories">
                     <option disabled value="">category</option>
@@ -35,17 +37,7 @@
                 <button @click="saveItem()">{{ this.editIndex != null ? 'update' : 'save'}}</button>
                 <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
                 <button @click="resetItem()">&#10005;</button>
-
-                <p style="color: white;">x{{ itemToEdit.x }}, y{{ itemToEdit.y }}</p>
             </div>
-        </div>
-
-        <!-- item markers -->
-        <div v-for="item, index in $store.getters.setup($route.params.setupId).items" :key="item.id">
-            <div @click="editItem(item,index)" class="item-markers" :style="{ top: item.y + 'px', left: item.x + 'px' }">
-            &#10005;
-            </div>
-
         </div>
 
     </div>
@@ -57,20 +49,17 @@
         <b>{{ item.category }}</b>
         {{ item.info }}
         <button @click="editItem(item, index)">edit</button>
-        <button v-if="index > 0" @click="reorderItems(index, 'up')">&#8593;</button>
-        <button v-if="index < this.setup.items.length - 1" @click="reorderItems(index, 'down')">&#8595;</button>
+        <button v-if="index > 0" @click="reorderItem(index, 'up')">&#8593;</button>
+        <button v-if="index < this.setup.items.length - 1" @click="reorderItem(index, 'down')">&#8595;</button>
     </div>
-
-    <!-- <items :setupItems="$store.getters.setup($route.params.setupId).items" @editItem="editItem" @reorderItems="reorderItems" /> -->
 
 </template>
 
 <script>
-import { downloadPic } from "../../firebase.js"
-// import items from './items.vue';
+import { downloadPic } from "../firebase.js"
 
 export default {
-    // components: { items },
+    components: { },
     async created() {
         await this.refreshImageURL()
     },
@@ -143,7 +132,7 @@ export default {
             this.$store.dispatch('deleteItem', { setupId: this.$route.params.setupId, index: this.editIndex })
             this.resetItem()
         },
-        reorderItems(index, direction) {
+        reorderItem(index, direction) {
             this.resetItem()
             
             const oldItems = [...this.setup.items];
@@ -165,9 +154,14 @@ export default {
 
             [reOrderedItems[index], reOrderedItems[newIndex]] = [reOrderedItems[newIndex], reOrderedItems[index]];
 
-            this.$store.dispatch('reorderItems', { setupId: this.$route.params.setupId, reOrderedItems: reOrderedItems });
-        }
+            this.$store.dispatch('reorderItem', { setupId: this.$route.params.setupId, reOrderedItems: reOrderedItems });
+        },
     },
+    computed: {
+        itemsToDisplay() {
+            return this.editing ? [this.itemToEdit] : this.setup.items;
+        }
+    }
 }
 </script>
 
@@ -199,7 +193,6 @@ export default {
 .item-markers {
     position: absolute;
     color: white;
-    transform: translate(-7px, -8px);
     cursor: pointer;
 }
 
