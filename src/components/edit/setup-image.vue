@@ -53,24 +53,24 @@
     <div v-else>loading</div>
 
     <!-- ITEM LIST -->
-    <!-- <div v-for="item, index in $store.getters.setup($route.params.setupId).items">
+    <div v-for="(item, index) in this.setup.items" :key="item.id">
         <b>{{ item.category }}</b>
         {{ item.info }}
-        <button @click="editItem(item,index)">edit</button>
-    </div> -->
+        <button @click="editItem(item, index)">edit</button>
+        <button v-if="index > 0" @click="reorderItems(index, 'up')">&#8593;</button>
+        <button v-if="index < this.setup.items.length - 1" @click="reorderItems(index, 'down')">&#8595;</button>
+    </div>
 
-    <items :setupItems="$store.getters.setup($route.params.setupId).items" @editItem="editItem" @reorderItems="reorderItems" />
+    <!-- <items :setupItems="$store.getters.setup($route.params.setupId).items" @editItem="editItem" @reorderItems="reorderItems" /> -->
 
 </template>
 
 <script>
 import { downloadPic } from "../../firebase.js"
-import items from './items.vue';
-
+// import items from './items.vue';
 
 export default {
-    components: { items
-    },  
+    // components: { items },
     async created() {
         await this.refreshImageURL()
     },
@@ -144,9 +144,11 @@ export default {
             this.resetItem()
         },
         reorderItems(index, direction) {
+            this.resetItem()
             
             const oldItems = [...this.setup.items];
 
+            // in case first item or last item
             if (index < 0 || index >= oldItems.length) return;
 
             let newIndex = index;
