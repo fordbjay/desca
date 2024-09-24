@@ -8,33 +8,69 @@
             draggable="false"
             @click="editItem"
             :src="imageURL"
-            style="cursor: crosshair"
         />
+
         <!-- item markers -->
         <div
             v-for="(item, index) in this.itemMarkersToDisplay"
             :key="item.id"
         >
-            <p
+            <div
                 class="item-markers"
-                :style="{ top: item.y-9.25 + 'px', left: item.x-6.09 + 'px', color: this.editing ? 'red' : 'white' }"
+                :style="{ 
+                        top: item.y-9.25 + 'px',
+                        left: item.x-6.09 + 'px',
+                        color: this.editing ? 'red' : 'white'
+                        }"
                 @click="editItem(e, item, index)"
             >
             &#10005;
-            </p>
+            </div>
         </div>
+
         <!-- edit box -->
-        <div class="edit-container" v-if="editing" @keyup.enter="saveItem()">
-            <div style="z-index: 1000" @keyup.delete="deleteItem()">
-                <select v-model="itemToEdit.category" name="categories" id="categories">
-                    <option disabled value="">category</option>
-                    <option v-for="category in categories" :value="category">{{ category }}</option>
+        <div 
+            class="edit-container"
+            v-if="editing" 
+            @keyup.enter="saveItem()"
+        >
+            <div 
+                style="z-index: 1000"
+                @keyup.delete="deleteItem()"
+            >
+                <select v-model="itemToEdit.category">
+                    <option 
+                        disabled
+                        value=""
+                    >
+                    category
+                    </option>
+                    <option 
+                        v-for="category in categories" 
+                        :value="category"
+                    >
+                    {{ category }}
+                    </option>
                 </select>
+                <input 
+                    v-model="itemToEdit.info"
+                    placeholder="info" 
+                    id="category" 
+                    type="text"
+                >
 
-                <input v-model="itemToEdit.info" placeholder="info" id="category" type="text">
-
-                <button v-if="this.itemHasChanges" @click="saveItem()">{{ this.editIndex != null ? 'update' : 'save'}}</button>
-                <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
+                <button 
+                    v-if="this.itemHasChanges"
+                    @click="saveItem()"
+                >
+                {{ this.editIndex != null ? 'update' : 'save'}}
+                </button>
+                <button 
+                    v-if="this.editIndex != null"
+                    @click="deleteItem()"
+                >
+                delete
+                </button>
                 <button @click="resetItem()">&#10005;</button>
             </div>
         </div>
@@ -62,27 +98,22 @@
 import { downloadPic } from "../firebase.js"
 
 export default {
-    components: { },
     async created() {
         await this.refreshImageURL()
     },
     data() {
-        const setup = this.$store.getters.setup(this.$route.params.setupId);
-        const itemToEdit = {
-            category: '',
-            info: '',
-            x: null,
-            y: null,
-        };
-        const categories = ['accessory','camera','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker',]
-        
         return {
             imageURL: null,
-            setup,
+            setup: this.$store.getters.setup(this.$route.params.setupId),
             editing: false,
             editIndex: null,
-            itemToEdit,
-            categories,
+            itemToEdit: {
+                category: '',
+                info: '',
+                x: null,
+                y: null,
+            },
+            categories: ['accessory','camera','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker',],
         }
     },
     methods: {
@@ -200,6 +231,7 @@ export default {
 .main-image {
     width: 100%;
     display: block;
+    cursor: crosshair;
 }
 
 .edit-container {
