@@ -24,7 +24,7 @@
             </p>
         </div>
         <!-- edit box -->
-        <div class="edit-container" v-if="editing">
+        <div class="edit-container" v-if="editing" @keyup.enter="saveItem()">
             <div style="z-index: 1000">
                 <select v-model="itemToEdit.category" name="categories" id="categories">
                     <option disabled value="">category</option>
