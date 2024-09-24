@@ -118,7 +118,7 @@ export default {
     },
     methods: {
         async refreshImageURL() {
-            const key = `${this.setup.user}/${this.$route.params.setupId}`;
+            const key = `${this.setup.user}/${this.setup.setupId}`;
             const url = await downloadPic(key);
             this.imageURL = url;
         },
@@ -156,7 +156,7 @@ export default {
             this.resetItem()
         },
         deleteItem() {
-            this.$store.dispatch('deleteItem', { setupId: this.$route.params.setupId, index: this.editIndex })
+            this.$store.dispatch('deleteItem', { setupId: this.setup.setupId, index: this.editIndex })
             this.resetItem()
         },
         reorderItem(index, direction) {
@@ -181,7 +181,7 @@ export default {
 
             [reorderItems[index], reorderItems[newIndex]] = [reorderItems[newIndex], reorderItems[index]];
 
-            this.$store.dispatch('reorderItem', { setupId: this.$route.params.setupId, reorderItems: reorderItems });
+            this.$store.dispatch('reorderItem', { setupId: this.setup.setupId, reorderItems: reorderItems });
         },
         resetItem() {
             this.editing = false;
