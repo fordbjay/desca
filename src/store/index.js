@@ -75,12 +75,8 @@ const store = createStore({
     deleteItem(state, {setupId, index}) {
       state.setups.find(s => s.setupId === setupId).items.splice(index, 1)
     },
-    reorderItem(state, {setupId, reOrderedItems}) {
-
-      state.setups.find(s => s.setupId === setupId).items = copy(reOrderedItems)
-
-
-
+    reorderItem(state, {setupId, reorderItems}) {
+      state.setups.find(s => s.setupId === setupId).items = copy(reorderItems)
     }
 
 
@@ -158,8 +154,8 @@ const store = createStore({
       context.commit('deleteItem', {item, setupId, index });
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items})
     },
-    async reorderItem(context, {setupId, reOrderedItems}) {
-      context.commit('reorderItem', {setupId, reOrderedItems})
+    async reorderItem(context, {setupId, reorderItems}) {
+      context.commit('reorderItem', {setupId, reorderItems})
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items})
     }
 

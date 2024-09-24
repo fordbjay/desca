@@ -6,7 +6,7 @@
         <img
             class="main-image"
             draggable="false"
-            @click="updateItem"
+            @click="editItem"
             :src="imageURL"
             style="cursor: crosshair"
         />
@@ -18,7 +18,7 @@
             <p
                 class="item-markers"
                 :style="{ top: item.y-9.25 + 'px', left: item.x-6.09 + 'px', color: this.editing ? 'red' : 'white' }"
-                @click="updateItem(e, item, index)"
+                @click="editItem(e, item, index)"
             >
             &#10005;
             </p>
@@ -50,7 +50,7 @@
     >
         <b>{{ item.category }}</b>
         {{ item.info }}
-        <button @click="updateItem(e, item, index)">edit</button>
+        <button @click="editItem(e, item, index)">edit</button>
         <button v-if="index > 0" @click="reorderItem(index, 'up')">&#8593;</button>
         <button v-if="index < this.setup.items.length - 1" @click="reorderItem(index, 'down')">&#8595;</button>
     </div>
@@ -67,20 +67,22 @@ export default {
         await this.refreshImageURL()
     },
     data() {
-        const setup = this.$store.getters.setup(this.$route.params.setupId)
+        const setup = this.$store.getters.setup(this.$route.params.setupId);
+        const itemToEdit = {
+            category: '',
+            info: '',
+            x: null,
+            y: null,
+        };
+        const categories = ['accessory','camera','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker',]
         
         return {
             imageURL: null,
             setup,
             editing: false,
             editIndex: null,
-            itemToEdit: {
-                category: '',
-                info: '',
-                x: null,
-                y: null,
-            },
-            categories: ['accessory','camera','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker',]
+            itemToEdit,
+            categories,
         }
     },
     methods: {
@@ -89,7 +91,7 @@ export default {
             const url = await downloadPic(key);
             this.imageURL = url;
         },
-        updateItem(e, item, index) {
+        editItem(e, item, index) {
             this.editing = true;
 
             // new item
@@ -117,17 +119,6 @@ export default {
             }
 
         },
-        resetItem() {
-            this.editing = false;
-            this.editIndex = null;
-
-            this.itemToEdit = {
-                category: '',
-                info: '',
-                x: null,
-                y: null,
-            };
-        },
         saveItem() {
             const indexToChange = this.editIndex != null ? this.editIndex : this.setup.items.length
             this.$store.dispatch('saveItem', { index: indexToChange, setupId: this.setup.setupId, item: this.itemToEdit });
@@ -142,7 +133,7 @@ export default {
             
             const oldItems = [...this.setup.items];
 
-            // in case first item or last item
+            // in case first or last item
             if (index < 0 || index >= oldItems.length) return;
 
             let newIndex = index;
@@ -155,11 +146,22 @@ export default {
 
             if (newIndex < 0 || newIndex >= oldItems.length) return;
 
-            const reOrderedItems = [...oldItems];
+            const reorderItems = [...oldItems];
 
-            [reOrderedItems[index], reOrderedItems[newIndex]] = [reOrderedItems[newIndex], reOrderedItems[index]];
+            [reorderItems[index], reorderItems[newIndex]] = [reorderItems[newIndex], reorderItems[index]];
 
-            this.$store.dispatch('reorderItem', { setupId: this.$route.params.setupId, reOrderedItems: reOrderedItems });
+            this.$store.dispatch('reorderItem', { setupId: this.$route.params.setupId, reorderItems: reorderItems });
+        },
+        resetItem() {
+            this.editing = false;
+            this.editIndex = null;
+
+            this.itemToEdit = {
+                category: '',
+                info: '',
+                x: null,
+                y: null,
+            };
         },
     },
     computed: {
@@ -211,7 +213,6 @@ export default {
 
 .item-markers {
     position: absolute;
-    color: white;
     cursor: pointer;
 }
 
