@@ -171,6 +171,7 @@ export default {
             const currentItem = this.setup.items[this.editIndex];
 
             return Object.keys(currentItem).some(key => currentItem[key] !== this.itemToEdit[key]);
+        
         },
         itemMarkersToDisplay() {
             return this.editing ? [this.itemToEdit] : this.setup.items;
