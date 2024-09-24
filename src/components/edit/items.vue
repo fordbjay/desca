@@ -3,6 +3,8 @@
         <b>{{ item.category }}</b>
         {{ item.info }}
         <button @click="$emit('editItem', item, index)">edit</button>
+        <button v-if="index > 0" @click="$emit('reorderItems', index, 'up')">&#8593;</button>
+        <button v-if="index < setupItems.length - 1" @click="$emit('reorderItems', index, 'down')">&#8595;</button>
     </div>
 </template>
 
@@ -14,7 +16,7 @@ export default {
             required: true
         }
     },
-    emits: ["editItem"],
+    emits: ["editItem", "reorderItems"],
 };
 </script>
 

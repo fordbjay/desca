@@ -33,8 +33,9 @@
                 <input v-model="itemToEdit.info" placeholder="info" id="category" type="text">
 
                 <button @click="saveItem()">{{ this.editIndex != null ? 'update' : 'save'}}</button>
-                <button @click="resetItem()">&#10005;</button>
                 <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
+                <button @click="resetItem()">&#10005;</button>
+
                 <p style="color: white;">x{{ itemToEdit.x }}, y{{ itemToEdit.y }}</p>
             </div>
         </div>
@@ -47,8 +48,6 @@
 
         </div>
 
-        <!-- <items :setupItems="setup.items" @editItem="getItem" /> -->
-
     </div>
 
     <div v-else>loading</div>
@@ -60,7 +59,7 @@
         <button @click="editItem(item,index)">edit</button>
     </div> -->
 
-    <items :setupItems="setup.items" @editItem="editItem" />
+    <items :setupItems="$store.getters.setup($route.params.setupId).items" @editItem="editItem" @reorderItems="reorderItems" />
 
 </template>
 
@@ -143,6 +142,28 @@ export default {
         deleteItem() {
             this.$store.dispatch('deleteItem', { setupId: this.$route.params.setupId, index: this.editIndex })
             this.resetItem()
+        },
+        reorderItems(index, direction) {
+            
+            const oldItems = [...this.setup.items];
+
+            if (index < 0 || index >= oldItems.length) return;
+
+            let newIndex = index;
+
+            if (direction === 'up') {
+                newIndex = index - 1;
+            } else if (direction === 'down') {
+                newIndex = index + 1;
+            }
+
+            if (newIndex < 0 || newIndex >= oldItems.length) return;
+
+            const reOrderedItems = [...oldItems];
+
+            [reOrderedItems[index], reOrderedItems[newIndex]] = [reOrderedItems[newIndex], reOrderedItems[index]];
+
+            this.$store.dispatch('reorderItems', { setupId: this.$route.params.setupId, reOrderedItems: reOrderedItems });
         }
     },
 }
