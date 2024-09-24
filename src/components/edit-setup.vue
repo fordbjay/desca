@@ -12,20 +12,19 @@
         />
         <!-- item markers -->
         <div
-            v-for="(item, index) in this.itemsToDisplay"
+            v-for="(item, index) in this.itemMarkersToDisplay"
             :key="item.id"
         >
-            <div
+            <p
                 class="item-markers"
                 :style="{ top: item.y-9.25 + 'px', left: item.x-6.09 + 'px', color: this.editing ? 'red' : 'white' }"
                 @click="editItem(item, index)"
             >
             &#10005;
-            </div>
+            </p>
         </div>
         <!-- edit box -->
         <div class="edit-container" v-if="editing">
-            <!-- details box -->
             <div style="z-index: 1000">
                 <select v-model="itemToEdit.category" name="categories" id="categories">
                     <option disabled value="">category</option>
@@ -34,24 +33,28 @@
 
                 <input v-model="itemToEdit.info" placeholder="info" id="category" type="text">
 
-                <button @click="saveItem()">{{ this.editIndex != null ? 'update' : 'save'}}</button>
+                <button v-if="this.itemHasChanges" @click="saveItem()">{{ this.editIndex != null ? 'update' : 'save'}}</button>
                 <button v-if="this.editIndex != null" @click="deleteItem()">delete</button>
                 <button @click="resetItem()">&#10005;</button>
             </div>
         </div>
 
     </div>
-
     <div v-else>loading</div>
 
     <!-- ITEM LIST -->
-    <div v-for="(item, index) in this.setup.items" :key="item.id">
+    <div
+        v-if="this.setup.items"
+        v-for="(item, index) in this.setup.items"
+        :key="item.id"
+    >
         <b>{{ item.category }}</b>
         {{ item.info }}
         <button @click="editItem(item, index)">edit</button>
         <button v-if="index > 0" @click="reorderItem(index, 'up')">&#8593;</button>
         <button v-if="index < this.setup.items.length - 1" @click="reorderItem(index, 'down')">&#8595;</button>
     </div>
+    <div v-else>loading</div>
 
 </template>
 
@@ -91,14 +94,12 @@ export default {
             this.editIndex = null;
             // rect compensates for image position on page
             const rect = e.target.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
 
             this.itemToEdit = {
                 category: this.itemToEdit.category,
                 info: this.itemToEdit.info,
-                x,
-                y,
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top,
             };
         },
         resetItem() {
@@ -158,7 +159,20 @@ export default {
         },
     },
     computed: {
-        itemsToDisplay() {
+        itemHasChanges() {
+            const fieldsToOmit = ['x', 'y'];
+            
+            if (this.editIndex === null) {
+                return Object.keys(this.itemToEdit)
+                    .filter(field => !fieldsToOmit.includes(field))
+                    .some(field => this.itemToEdit[field]?.trim() !== '');
+            }
+
+            const currentItem = this.setup.items[this.editIndex];
+
+            return Object.keys(currentItem).some(key => currentItem[key] !== this.itemToEdit[key]);
+        },
+        itemMarkersToDisplay() {
             return this.editing ? [this.itemToEdit] : this.setup.items;
         }
     }
