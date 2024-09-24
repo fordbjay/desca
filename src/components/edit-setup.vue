@@ -6,7 +6,7 @@
         <img
             class="main-image"
             draggable="false"
-            @click="addItem"
+            @click="updateItem"
             :src="imageURL"
             style="cursor: crosshair"
         />
@@ -18,14 +18,14 @@
             <p
                 class="item-markers"
                 :style="{ top: item.y-9.25 + 'px', left: item.x-6.09 + 'px', color: this.editing ? 'red' : 'white' }"
-                @click="editItem(item, index)"
+                @click="updateItem(e, item, index)"
             >
             &#10005;
             </p>
         </div>
         <!-- edit box -->
         <div class="edit-container" v-if="editing" @keyup.enter="saveItem()">
-            <div style="z-index: 1000">
+            <div style="z-index: 1000" @keyup.delete="deleteItem()">
                 <select v-model="itemToEdit.category" name="categories" id="categories">
                     <option disabled value="">category</option>
                     <option v-for="category in categories" :value="category">{{ category }}</option>
@@ -50,7 +50,7 @@
     >
         <b>{{ item.category }}</b>
         {{ item.info }}
-        <button @click="editItem(item, index)">edit</button>
+        <button @click="updateItem(e, item, index)">edit</button>
         <button v-if="index > 0" @click="reorderItem(index, 'up')">&#8593;</button>
         <button v-if="index < this.setup.items.length - 1" @click="reorderItem(index, 'down')">&#8595;</button>
     </div>
@@ -89,22 +89,38 @@ export default {
             const url = await downloadPic(key);
             this.imageURL = url;
         },
-        addItem(e) {
+        updateItem(e, item, index) {
             this.editing = true;
-            this.editIndex = null;
-            // rect compensates for image position on page
-            const rect = e.target.getBoundingClientRect();
 
-            this.itemToEdit = {
-                category: this.itemToEdit.category,
-                info: this.itemToEdit.info,
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top,
-            };
+            // new item
+            if (!item) {
+                this.editIndex = null;
+                // rect compensates for image position on page
+                const rect = e.target.getBoundingClientRect();
+    
+                this.itemToEdit = {
+                    category: this.itemToEdit.category,
+                    info: this.itemToEdit.info,
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top,
+                };
+            } else {
+                // update item
+                this.editIndex = index
+
+                this.itemToEdit = {
+                    category: item.category,
+                    info: item.info,
+                    x: item.x,
+                    y: item.y,
+                };
+            }
+
         },
         resetItem() {
             this.editing = false;
             this.editIndex = null;
+
             this.itemToEdit = {
                 category: '',
                 info: '',
@@ -116,18 +132,6 @@ export default {
             const indexToChange = this.editIndex != null ? this.editIndex : this.setup.items.length
             this.$store.dispatch('saveItem', { index: indexToChange, setupId: this.setup.setupId, item: this.itemToEdit });
             this.resetItem()
-        },
-        editItem(item,index) {
-            this.editIndex = index
-            this.editing = true
-
-            this.itemToEdit = {
-                category: item.category,
-                info: item.info,
-                x: item.x,
-                y: item.y,
-            };
-
         },
         deleteItem() {
             this.$store.dispatch('deleteItem', { setupId: this.$route.params.setupId, index: this.editIndex })
