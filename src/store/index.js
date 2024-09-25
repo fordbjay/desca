@@ -77,8 +77,7 @@ const store = createStore({
     },
     reorderItem(state, {setupId, reorderItems}) {
       state.setups.find(s => s.setupId === setupId).items = copy(reorderItems)
-    }
-
+    },
 
   },
   actions: {
@@ -157,8 +156,7 @@ const store = createStore({
     async reorderItem(context, {setupId, reorderItems}) {
       context.commit('reorderItem', {setupId, reorderItems})
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items})
-    }
-
+    },
 
   }
 
@@ -179,11 +177,8 @@ onAuthStateChanged(auth, async (user) => {
     store.commit('setLoaded')
   
   } else {
-      if (router.currentRoute.name !== 'View') {
-        await router.push('/')
-      }
+      await router.push('/')
       store.commit('logOut')
-
   }
 });
 

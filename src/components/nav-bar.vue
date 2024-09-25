@@ -29,6 +29,9 @@ export default {
     computed: {
         userDetails() {
             return this.$store.getters.getuserDetails(this.$route.params.user)
+        },
+        test() {
+            console.log('test')
         }
     }
 }
