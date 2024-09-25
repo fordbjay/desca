@@ -58,7 +58,6 @@
                     id="category" 
                     type="text"
                 >
-
                 <button 
                     v-if="this.itemHasChanges"
                     @click="saveItem()"
@@ -78,7 +77,7 @@
     </div>
     <div v-else>loading</div>
 
-    <!-- ITEM LIST -->
+    <!-- item list -->
     <div
         v-if="this.setup.items"
         v-for="(item, index) in this.setup.items"
@@ -87,8 +86,18 @@
         <b>{{ item.category }}</b>
         {{ item.info }}
         <button @click="editItem(e, item, index)">edit</button>
-        <button v-if="index > 0" @click="reorderItem(index, 'up')">&#8593;</button>
-        <button v-if="index < this.setup.items.length - 1" @click="reorderItem(index, 'down')">&#8595;</button>
+        <button
+            v-if="index > 0"
+            @click="reorderItem(index, 'up')"
+        >
+        &#8593;
+        </button>
+        <button 
+            v-if="index < this.setup.items.length - 1"
+            @click="reorderItem(index, 'down')"
+        >
+        &#8595;
+        </button>
     </div>
     <div v-else>loading</div>
 
