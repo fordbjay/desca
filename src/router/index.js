@@ -28,6 +28,11 @@ const routes = [
         name: 'Edit',
         component: () => import('../views/Edit.vue'),
       },
+      {
+        path: '/:user/:setupId',
+        name: 'View',
+        component: () => import('../views/View.vue'),
+      },
 ]
 
 const router = createRouter({

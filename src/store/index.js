@@ -21,7 +21,7 @@ const store = createStore({
       setups: [],
       userDetails: {},
       uploadProgress: null,
-      editing: true,
+      viewingSetup: [],
     }
   },
   getters: {
@@ -77,6 +77,11 @@ const store = createStore({
     },
     reorderItem(state, {setupId, reorderItems}) {
       state.setups.find(s => s.setupId === setupId).items = copy(reorderItems)
+    },
+
+    // VIEWING MUTATIONS
+    fetchViewingSetup(state, viewingSetup) {
+      state.viewingSetup = viewingSetup
     },
 
   },
@@ -158,6 +163,14 @@ const store = createStore({
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items})
     },
 
+    // VIEWING ACTIONS
+    async fetchViewingSetup(context, routerAddress) {
+      const q = query(collection(db, "setups"), where("setupId", "==", routerAddress));
+      const querySnapshot = await getDocs(q);
+      const viewingSetup = querySnapshot.docs[0]
+      context.commit('fetchViewingSetup', viewingSetup.data())
+    },
+
   }
 
 })
@@ -171,13 +184,9 @@ onAuthStateChanged(auth, async (user) => {
     await store.dispatch('fetchUserDetails', uid)
     await store.dispatch('fetchUserSetups', user)
     
-    // SETUP PAGE OPENS AFTER LOG IN
-    await router.push(`/setups/${uid}`)
-  
     store.commit('setLoaded')
   
   } else {
-      await router.push('/')
       store.commit('logOut')
   }
 });

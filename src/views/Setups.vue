@@ -39,9 +39,7 @@ export default {
             uploading: false
         }
     },
-    components: {
-        navBar,
-    },
+    components: { navBar },
     methods: {
         async makeNewSetup(event) {
             this.uploading = true
