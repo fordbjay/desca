@@ -5,8 +5,8 @@
     <img style="width: 650px; display: block;" :src="imageURL" :alt="imageURL">
 
     <div
-        v-if="setup.items"
-        v-for="(item, index) in setup.items"
+        v-if="items"
+        v-for="(item, index) in items"
         :key="item.id"
     >
         <b>{{ item.category }}</b>
@@ -22,20 +22,17 @@
 
     export default {
         
-
         async created() {
             const routerAddress = this.$route.params.setupId
             this.$store.dispatch('fetchViewingSetup', routerAddress)
 
             this.refreshImageURL()
         },
-        component: { navBar },
+        components: { navBar },
         data() {
-            const setup = this.$store.getters.setup(this.$route.params.setupId)
 
             return {
                 imageURL: null,
-                setup
             }
         },
         methods: {
@@ -45,6 +42,11 @@
                 this.imageURL = url
             },
         },
+        computed: {
+            items() {
+                return this.$store.state.viewingSetup.items       
+            }
+        }
 
 
     }

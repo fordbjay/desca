@@ -1,19 +1,18 @@
 <template>
 
     <button @click="logOut()">log out</button>
-    <button v-if="this.$route.name != 'Setups'" @click="goToSetups()">setups</button>
+    <button v-if="$route.name != 'Setups'" @click="goToSetups()">setups</button>
 
-    <router-link
-        v-if="this.$route.name === 'Edit'"
-        :to="`/${$store.state.user.uid}/${$route.params.setupId}`"
-    >
-    <button v-if="this.$route.name != 'View'">view</button>
+    <router-link :to="computedRoute">
+        <button v-if="$route.name != 'Setups'">
+            {{$route.name === 'Edit' ? 'view' : 'edit'}}
+        </button>
     </router-link>
 
     <div v-if="userDetails">
         <img
         :src="userDetails.photoURL"
-        :alt="userDetails.photoURL"
+        alt="User Photo"
         style="display: block;"
         >
         <div>{{ userDetails.profName }}</div>
@@ -37,10 +36,22 @@ export default {
         userDetails() {
             return this.$store.getters.getuserDetails(this.$route.params.user)
         },
-        test() {
-            console.log('test')
+        computedRoute() {
+            const uid = this.$store.state.user?.uid;
+            const setupId = this.$route.params.setupId;
+
+            if (uid) { // Ensure uid is defined
+                if (this.$route.name === 'Edit') {
+                    return `/${uid}/${setupId}`;
+                } else {
+                    return `/edit/${uid}/${setupId}`;
+                }
+            } else {
+                return '/'; // or any fallback route
+            }
         }
     }
 }
 
 </script>
+  

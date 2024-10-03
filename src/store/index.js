@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import { doc, getDocs, deleteDoc, updateDoc, collection, query, where, setDoc, getFirestore, startAfter } from "firebase/firestore"; 
 import { login, logOut } from '../firebase.js'
-import {  getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import router from '../router/index.js';
 import { downloadPic, deletePic, uploadPic} from '../firebase';
 
@@ -18,6 +18,7 @@ const store = createStore({
     return {
       loaded: false,
       user: null,
+      loggedIn: false,
       setups: [],
       userDetails: {},
       uploadProgress: null,

@@ -135,7 +135,7 @@ export default {
             this.editing = true;
 
             // new item
-            if (!item) {
+            if (!item) { // new item
                 this.editIndex = null;
                 // rect compensates for image position on page
                 const rect = e.target.getBoundingClientRect();
@@ -146,8 +146,7 @@ export default {
                     x: e.clientX - rect.left,
                     y: e.clientY - rect.top,
                 };
-            } else {
-                // update item
+            } else { // update item
                 this.editIndex = index
 
                 this.itemToEdit = {
