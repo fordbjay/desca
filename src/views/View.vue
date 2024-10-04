@@ -24,7 +24,7 @@
         
         async created() {
             const routerAddress = this.$route.params.setupId
-            this.$store.dispatch('fetchViewingSetup', routerAddress)
+            await this.$store.dispatch('fetchViewingSetup', routerAddress)
 
             this.refreshImageURL()
         },

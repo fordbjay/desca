@@ -184,6 +184,8 @@ onAuthStateChanged(auth, async (user) => {
     store.commit('setLoggedInUser', user);
     await store.dispatch('fetchUserDetails', uid)
     await store.dispatch('fetchUserSetups', user)
+
+    await router.push(`/setups/${uid}`)
     
     store.commit('setLoaded')
   
