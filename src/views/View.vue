@@ -2,8 +2,32 @@
 
     <navBar/>
 
-    <img style="width: 650px; display: block;" :src="imageURL" :alt="imageURL">
+    <div style="width: 650px; height: 100%; position: relative;">
 
+        <!-- IMAGE -->
+        <img style="width: 100%; display: block;" :src="imageURL" :alt="imageURL">
+
+        <!-- ITEMS -->
+        <div
+            v-for="(item, index) in items"
+            :key="item.id"
+        >
+            <div
+                class="item-markers"
+                :style="{ 
+                    top: item.y-9.25 + 'px',
+                    left: item.x-6.09 + 'px',
+                    color:'white',
+                }"
+                @click="selectItem(item, index)"
+            >
+            &#10005;
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ITEM LIST -->
     <div
         v-if="items"
         v-for="(item, index) in items"
@@ -41,6 +65,10 @@
                 const url = await downloadPic(key)
                 this.imageURL = url
             },
+            selectItem(item, index) {
+                console.log(item, index)
+
+            }
         },
         computed: {
             items() {
@@ -55,6 +83,9 @@
 
 <style scoped>
 
-
+    .item-markers {
+        position: absolute;
+        cursor: pointer;
+    }
 
 </style>

@@ -150,7 +150,7 @@ const store = createStore({
       context.commit('uploadProgress', progress)
     },
 
-    // ITEM ACTIONS
+    // EDIT ACTIONS
     async saveItem(context, {index, item, setupId }) {
       context.commit('saveItem', {index, setupId, item})
       await updateDoc(doc(db, "setups", setupId), {items: context.getters.setup(setupId).items });

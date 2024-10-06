@@ -8,6 +8,7 @@
             draggable="false"
             @click="editItem"
             :src="imageURL"
+            
         />
 
         <!-- item markers -->
@@ -79,8 +80,8 @@
 
     <!-- item list -->
     <div
-        v-if="this.setup.items"
-        v-for="(item, index) in this.setup.items"
+        v-if="setup.items"
+        v-for="(item, index) in setup.items"
         :key="item.id"
     >
         <b>{{ item.category }}</b>
@@ -113,7 +114,7 @@ export default {
     data() {
         return {
             imageURL: null,
-            setup: this.$store.getters.setup(this.$route.params.setupId),
+            // setup: this.$store.getters.setup(this.$route.params.setupId),
             editing: false,
             editIndex: null,
             itemToEdit: {
@@ -204,6 +205,9 @@ export default {
         },
     },
     computed: {
+        setup() {
+            return this.$store.getters.setup(this.$route.params.setupId)
+        },
         itemHasChanges() {
             const fieldsToOmit = ['x', 'y'];
             

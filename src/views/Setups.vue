@@ -5,10 +5,10 @@
     <!-- UPLOAD BUTTON -->
     <span>{{uploadProgress}}</span>
     <input
-    type="file"
-    @change="makeNewSetup"
-    accept=".jpg, .jpeg, .png"
-    :disabled="uploading"
+        type="file"
+        @change="makeNewSetup"
+        accept=".jpg, .jpeg, .png"
+        :disabled="uploading"
     >
 
     <!-- IMAGE AND EDIT BUTTONS -->
