@@ -109,7 +109,8 @@ import { downloadPic } from "../firebase.js"
 
 export default {
     async created() {
-        await this.refreshImageURL()
+        const key = `${this.$route.params.user}/${this.$route.params.setupId}`
+        this.imageURL = await downloadPic(key)
     },
     data() {
         return {
@@ -127,11 +128,6 @@ export default {
         }
     },
     methods: {
-        async refreshImageURL() {
-            const key = `${this.setup.user}/${this.setup.setupId}`;
-            const url = await downloadPic(key);
-            this.imageURL = url;
-        },
         editItem(e, item, index) {
             this.editing = true;
 

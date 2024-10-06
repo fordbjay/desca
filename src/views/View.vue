@@ -7,7 +7,7 @@
         <!-- IMAGE -->
         <img style="width: 100%; display: block;" :src="imageURL" :alt="imageURL">
 
-        <!-- ITEMS -->
+        <!-- ITEM MARKERS -->
         <div
             v-for="(item, index) in items"
             :key="item.id"
@@ -50,24 +50,18 @@
             const routerAddress = this.$route.params.setupId
             await this.$store.dispatch('fetchViewingSetup', routerAddress)
 
-            this.refreshImageURL()
+            const key = `${this.$route.params.user}/${routerAddress}`
+            this.imageURL = await downloadPic(key)
         },
         components: { navBar },
         data() {
-
             return {
                 imageURL: null,
             }
         },
         methods: {
-            async refreshImageURL() {
-                const key = `${this.$route.params.user}/${this.$route.params.setupId}`
-                const url = await downloadPic(key)
-                this.imageURL = url
-            },
             selectItem(item, index) {
                 console.log(item, index)
-
             }
         },
         computed: {
