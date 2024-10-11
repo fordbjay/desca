@@ -17,7 +17,7 @@
         >
         <div>{{ userDetails.profName }}</div>
     </div>
-    <div v-else>loading</div>
+    <div v-else>loading...</div>
 
 </template>
 

@@ -2,7 +2,10 @@
 
     <navBar/>
 
-    <div style="width: 650px; height: 100%; position: relative;">
+    <div 
+        class="main-image"
+        v-if="imageURL"
+    >
 
         <!-- IMAGE -->
         <img style="width: 100%; display: block;" :src="imageURL" :alt="imageURL">
@@ -15,8 +18,8 @@
             <div
                 class="item-markers"
                 :style="{ 
-                    top: item.y-9.25 + 'px',
-                    left: item.x-6.09 + 'px',
+                    top: item.y * 100 + '%',
+                    left: item.x * 100 + '%',
                     color:'white',
                 }"
                 @click="selectItem(item, index)"
@@ -26,6 +29,7 @@
         </div>
 
     </div>
+    <div v-else>loading...</div>
 
     <!-- ITEM LIST -->
     <div
@@ -36,7 +40,7 @@
         <b>{{ item.category }}</b>
         {{ item.info }}
     </div>
-    <div v-else>loading</div>
+    <div v-else>loading...</div>
 
 </template>
 
@@ -77,9 +81,25 @@
 
 <style scoped>
 
+    .main-image {
+        width: 80%;
+        max-width: 750px;
+        height: 100%;
+        position: relative;
+    }
+
     .item-markers {
         position: absolute;
         cursor: pointer;
+        transform: translate(-6.09px, -9.25px)
+    }
+
+
+    @media screen and (max-width: 500px) {
+
+        .main-image {
+            width: 100%;
+        }
     }
 
 </style>

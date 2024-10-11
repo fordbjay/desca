@@ -8,7 +8,7 @@
             draggable="false"
             @click="editItem"
             :src="imageURL"
-            
+            ref="image"
         />
 
         <!-- item markers -->
@@ -19,9 +19,9 @@
             <div
                 class="item-markers"
                 :style="{ 
-                        top: item.y-9.25 + 'px',
-                        left: item.x-6.09 + 'px',
-                        color: this.editing ? 'red' : 'white'
+                        top: item.y * 100 + '%',
+                        left: item.x * 100 + '%',
+                        color: this.editing ? 'red' : 'white',
                         }"
                 @click="editItem(e, item, index)"
             >
@@ -76,7 +76,7 @@
         </div>
 
     </div>
-    <div v-else>loading</div>
+    <div v-else>loading...</div>
 
     <!-- item list -->
     <div
@@ -100,7 +100,7 @@
         &#8595;
         </button>
     </div>
-    <div v-else>loading</div>
+    <div v-else>loading...</div>
 
 </template>
 
@@ -124,7 +124,11 @@ export default {
                 x: null,
                 y: null,
             },
-            categories: ['accessory','camera','chair','computer','desk','headset','keyboard','microphone','monitor','mouse','speaker',],
+            categories: [
+                        'accessory','camera','chair','computer','desk',
+                        'headset','keyboard','microphone','monitor',
+                        'mouse','speaker',
+                        ],
         }
     },
     methods: {
@@ -135,14 +139,18 @@ export default {
             if (!item) { // new item
                 this.editIndex = null;
                 // rect compensates for image position on page
-                const rect = e.target.getBoundingClientRect();
+                const image = this.$refs.image;
+                const rect = image.getBoundingClientRect();
+                // const rect = e.target.getBoundingClientRect();
     
                 this.itemToEdit = {
                     category: this.itemToEdit.category,
                     info: this.itemToEdit.info,
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top,
+                    x: (e.clientX - rect.left) / rect.width,
+                    y: (e.clientY - rect.top) / rect.height,
                 };
+
+                console.log(this.itemToEdit)
             } else { // update item
                 this.editIndex = index
 
@@ -228,7 +236,8 @@ export default {
 <style scoped>
 
 .main-container {
-    width: 650px;
+    width: 80%;
+    max-width: 750px;
     height: 100%;
     position: relative;
     display: flex;
@@ -254,6 +263,15 @@ export default {
 .item-markers {
     position: absolute;
     cursor: pointer;
+    transform: translate(-6.09px, -9.25px)
+}
+
+
+@media screen and (max-width: 500px) {
+
+.main-container {
+    width: 100%;
+}
 }
 
 </style>
