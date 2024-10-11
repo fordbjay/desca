@@ -91,7 +91,7 @@
     .item-markers {
         position: absolute;
         cursor: pointer;
-        transform: translate(-6.09px, -9.25px)
+        transform: translate(-50%, -50%)
     }
 
 
