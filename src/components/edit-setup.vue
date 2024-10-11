@@ -13,7 +13,7 @@
 
         <!-- item markers -->
         <div
-            v-for="(item, index) in this.itemMarkersToDisplay"
+            v-for="(item, index) in itemMarkersToDisplay"
             :key="item.id"
         >
             <div
@@ -149,8 +149,6 @@ export default {
                     x: (e.clientX - rect.left) / rect.width,
                     y: (e.clientY - rect.top) / rect.height,
                 };
-
-                console.log(this.itemToEdit)
             } else { // update item
                 this.editIndex = index
 
