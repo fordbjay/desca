@@ -37,7 +37,6 @@
         >
             <div 
                 style="z-index: 1000"
-                @keyup.delete="deleteItem()"
             >
                 <select v-model="itemToEdit.category">
                     <option 
@@ -261,16 +260,15 @@ export default {
 .item-markers {
     position: absolute;
     cursor: pointer;
-    /* transform: translate(-6.09px, -9.25px) */
     transform: translate(-50%, -50%)
 }
 
 
 @media screen and (max-width: 500px) {
 
-.main-container {
-    width: 100%;
-}
+    .main-container {
+        width: 100%;
+    }
 }
 
 </style>
