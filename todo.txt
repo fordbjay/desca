@@ -1,7 +1,7 @@
-profile header
-    picture
-    name
+nav bar
+    change profile picture
+    change display name
+    add fields to add social media
 
-setups
-    upload btn
-    
+items edit
+    add a line of info

@@ -14,7 +14,7 @@
         <div v-if="viewing" class="view-item-container">
             <div style="">
                 <p>{{ selectedItem.category }}</p>
-                <p>{{ selectedItem.info }}</p>
+                <pre>{{ selectedItem.info }}</pre>
                 <button @click="viewing=false;">&#10005;</button>
 
             </div>
@@ -50,7 +50,7 @@
     >
         <div @click="selectItem(item)">
             <b>{{ item.category }}</b>
-            {{ item.info }}
+            <pre>{{ item.info }}</pre>
 
         </div>
     </div>

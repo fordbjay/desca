@@ -32,11 +32,10 @@
         <!-- edit box -->
         <div 
             class="edit-container"
-            v-if="editing" 
-            @keyup.enter="saveItem()"
+            v-if="editing"
         >
             <div 
-                style="z-index: 1000"
+                style="z-index: 1000; display: flex; align-items: center;"
             >
                 <select v-model="itemToEdit.category">
                     <option 
@@ -52,12 +51,14 @@
                     {{ category }}
                     </option>
                 </select>
-                <input 
+                <textarea
                     v-model="itemToEdit.info"
                     placeholder="info" 
                     id="category" 
                     type="text"
+                    style="height: 17px; min-height: 17px; max-height: 150px; min-width: 200px; max-width: 200px;"
                 >
+                </textarea>
                 <button 
                     v-if="this.itemHasChanges"
                     @click="saveItem()"
@@ -84,7 +85,7 @@
         :key="item.id"
     >
         <b>{{ item.category }}</b>
-        {{ item.info }}
+        <pre>{{ item.info }}</pre>
         <button @click="editItem(e, item, index)">edit</button>
         <button
             v-if="index > 0"
