@@ -233,7 +233,7 @@ export default {
 <style scoped>
 
 .main-container {
-    width: 80%;
+    width: 100%;
     max-width: 750px;
     height: 100%;
     position: relative;
