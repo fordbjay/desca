@@ -1,5 +1,6 @@
 <template>
 
+    <!-- <img src="/desca-logo.png" alt="logo" style="width: 150px; display: block;"> -->
     <button @click="logOut()">log out</button>
     <button v-if="$route.name != 'Setups'" @click="goToSetups()">setups</button>
 
