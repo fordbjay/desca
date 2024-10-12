@@ -4,4 +4,3 @@ nav bar
     add fields to add social media
 
 items edit
-    add a line of info
