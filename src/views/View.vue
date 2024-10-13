@@ -12,7 +12,7 @@
 
         <!-- ITEM BOX -->
         <div v-if="viewing" class="view-item-container">
-            <div style="">
+            <div>
                 <p>{{ selectedItem.category }}</p>
                 <pre>{{ selectedItem.info }}</pre>
                 <button @click="viewing=false;">&#10005;</button>
@@ -42,25 +42,43 @@
     <div v-else>loading...</div>
 
     <!-- ITEM LIST -->
-    <div
-        v-if="items"
-        v-for="(item) in items"
-        :key="item.id"
-        style="cursor: pointer;"
-    >
-        <div @click="selectItem(item)">
-            <b>{{ item.category }}</b>
-            <pre>{{ item.info }}</pre>
+         <!-- <div
+             v-if="items"
+             v-for="(item) in items"
+             :key="item.id"
+         >
+             <div @click="selectItem(item)" style="width: max-content; cursor: pointer;">
+                 <b>{{ item.category }}</b>
+                 <pre>{{ item.info }}</pre>
+     
+             </div>
+         </div>
+         <div v-else>loading...</div> -->
 
-        </div>
-    </div>
-    <div v-else>loading...</div>
+         <div style="width: 100%; max-width: 750px;">
+
+             <masonry-wall v-if="items" :items="items" :ssr-columns="1" :column-width="200" :gap="10" style="margin-top: 10px; margin-bottom:10px;" >
+                <template #default="{ item, index }">
+                    <div @click="selectItem(item)" style="cursor: pointer; height: min-content; border: 1px solid; display: flex; justify-content: space-around; flex-direction: column; align-items: center;">
+                        <b>{{ item.category }}</b>
+                        <pre>{{ item.info }}</pre>
+                    </div>
+                </template>
+            </masonry-wall>
+            <div v-else>loading...</div> 
+
+         </div>
+
+
+
+
 
 </template>
 
 <script>
     import { downloadPic } from '../firebase.js'
     import navBar from '../components/nav-bar.vue'
+    import MasonryWall from '@yeger/vue-masonry-wall'
 
     export default {
         
@@ -71,7 +89,7 @@
             const key = `${this.$route.params.user}/${routerAddress}`
             this.imageURL = await downloadPic(key)
         },
-        components: { navBar },
+        components: { navBar, MasonryWall },
         data() {
             return {
                 imageURL: null,

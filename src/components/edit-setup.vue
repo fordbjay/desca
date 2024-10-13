@@ -79,7 +79,7 @@
     <div v-else>loading...</div>
 
     <!-- item list -->
-    <div
+    <!-- <div
         v-if="setup.items"
         v-for="(item, index) in setup.items"
         :key="item.id"
@@ -100,12 +100,43 @@
         &#8595;
         </button>
     </div>
-    <div v-else>loading...</div>
+    <div v-else>loading...</div> -->
+
+    <div style="width: 100%; max-width: 750px;">
+            
+        <masonry-wall v-if="setup.items" :items="setup.items" :ssr-columns="1" :column-width="200" :gap="10" style="margin-top: 10px; margin-bottom:10px;" >
+            <template #default="{ item, index }">
+                <div style="height: min-content; border: 1px solid; display: flex; justify-content: space-around; flex-direction: column; align-items: center;">
+                    <b>{{ item.category }}</b>
+                    <pre>{{ item.info }}</pre>
+                    <div>
+                        <button @click="editItem(e, item, index)">edit</button>
+
+                        <button
+                            v-if="index > 0"
+                            @click="reorderItem(index, 'up')"
+                        >
+                        &#8592;
+                        </button>
+                        <button 
+                            v-if="index < this.setup.items.length - 1"
+                            @click="reorderItem(index, 'down')"
+                        >
+                        &#8594;
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </masonry-wall>
+        <div v-else>loading...</div> 
+
+    </div>
 
 </template>
 
 <script>
 import { downloadPic } from "../firebase.js"
+import MasonryWall from '@yeger/vue-masonry-wall'
 
 export default {
     async created() {
@@ -131,6 +162,7 @@ export default {
                         ],
         }
     },
+    components: { MasonryWall },
     methods: {
         editItem(e, item, index) {
             this.editing = true;
@@ -241,6 +273,7 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    overflow: hidden;
 }
 
 .main-image {

@@ -14,7 +14,7 @@
         <img
         :src="userDetails.photoURL"
         alt="User Photo"
-        style="display: block;"
+        style="display: block; width: 75px;"
         >
         <div>{{ userDetails.profName }}</div>
     </div>
