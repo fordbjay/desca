@@ -61,7 +61,7 @@
                 <template #default="{ item, index }">
                     <div @click="selectItem(item)" style="cursor: pointer; height: min-content; border: 1px solid; display: flex; justify-content: space-around; flex-direction: column; align-items: center;">
                         <b>{{ item.category }}</b>
-                        <pre>{{ item.info }}</pre>
+                        <pre style="white-space: pre-wrap;">{{ item.info }}</pre>
                     </div>
                 </template>
             </masonry-wall>

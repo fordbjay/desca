@@ -57,7 +57,7 @@
                     id="category" 
                     type="text"
                     style="height: 17px; min-height: 17px; max-height: 150px; min-width: 200px; max-width: 200px;"
-                >
+                    >
                 </textarea>
                 <button 
                     v-if="this.itemHasChanges"
@@ -108,7 +108,7 @@
             <template #default="{ item, index }">
                 <div style="height: min-content; border: 1px solid; display: flex; justify-content: space-around; flex-direction: column; align-items: center;">
                     <b>{{ item.category }}</b>
-                    <pre>{{ item.info }}</pre>
+                    <pre style="white-space: pre-wrap;">{{ item.info }}</pre>
                     <div>
                         <button @click="editItem(e, item, index)">edit</button>
 
