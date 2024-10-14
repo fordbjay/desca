@@ -15,18 +15,11 @@
         <div
             v-for="(item, index) in itemMarkersToDisplay"
             :key="item.id"
+            class="item-markers"
+            :style="getItemMarkerStyle(item)"
+            @click="editItem($event, item, index)"
         >
-            <div
-                class="item-markers"
-                :style="{ 
-                        top: item.y * 100 + '%',
-                        left: item.x * 100 + '%',
-                        color: this.editing ? 'red' : 'white',
-                        }"
-                @click="editItem(e, item, index)"
-            >
-            &#10005;
-            </div>
+        &#10005;
         </div>
 
         <!-- edit box -->
@@ -165,32 +158,22 @@ export default {
     methods: {
         editItem(e, item, index) {
             this.editing = true;
+            const image = this.$refs.image;
+            const rect = image.getBoundingClientRect();
 
-            // new item
-            if (!item) { // new item
+            if (!item) {
+                // New item creation
                 this.editIndex = null;
-                // rect compensates for image position on page
-                const image = this.$refs.image;
-                const rect = image.getBoundingClientRect();
-                // const rect = e.target.getBoundingClientRect();
-    
                 this.itemToEdit = {
-                    category: this.itemToEdit.category,
-                    info: this.itemToEdit.info,
-                    x: (e.clientX - rect.left) / rect.width,
-                    y: (e.clientY - rect.top) / rect.height,
-                };
-            } else { // update item
-                this.editIndex = index
-
-                this.itemToEdit = {
-                    category: item.category,
-                    info: item.info,
-                    x: item.x,
-                    y: item.y,
-                };
+                ...this.itemToEdit,
+                x: (e.clientX - rect.left) / rect.width,
+                y: (e.clientY - rect.top) / rect.height,
+            };
+            } else {
+                // Edit existing item
+                this.editIndex = index;
+                this.itemToEdit = { ...item };
             }
-
         },
         saveItem() {
             const indexToChange = this.editIndex != null ? this.editIndex : this.setup.items.length
@@ -234,6 +217,13 @@ export default {
                 info: '',
                 x: null,
                 y: null,
+            };
+        },
+        getItemMarkerStyle(item) {
+            return {
+                top: `${item.y * 100}%`,
+                left: `${item.x * 100}%`,
+                color: this.editing ? 'red' : 'white',
             };
         },
     },
