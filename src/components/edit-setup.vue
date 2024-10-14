@@ -3,6 +3,7 @@
     <div class="main-container" v-if="imageURL">
         
         <!-- main image -->
+         <!-- test -->
         <img
             class="main-image"
             draggable="false"
