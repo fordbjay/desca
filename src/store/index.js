@@ -185,7 +185,9 @@ onAuthStateChanged(auth, async (user) => {
     await store.dispatch('fetchUserDetails', uid)
     await store.dispatch('fetchUserSetups', user)
 
-    await router.push(`/setups/${uid}`)
+    if (router.currentRoute.value.name === 'Home') {
+      await router.push(`/setups/${uid}`)
+    }
     
     store.commit('setLoaded')
   

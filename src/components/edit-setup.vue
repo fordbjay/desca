@@ -102,9 +102,9 @@
     </div>
     <div v-else>loading...</div> -->
 
-    <div style="width: 100%; max-width: 750px;" v-if="!editing && setup.items">
+    <div style="width: 100%; max-width: 750px;" v-if="setup">
             
-        <masonry-wall :items="setup.items" :ssr-columns="1" :column-width="200" :gap="10" style="margin-top: 10px; margin-bottom:10px;" >
+        <masonry-wall v-if="!editing" :items="setup.items" :ssr-columns="1" :column-width="200" :gap="10" style="margin-top: 10px; margin-bottom:10px;" >
             <template #default="{ item, index }">
                 <div style="height: min-content; border: 1px solid; display: flex; justify-content: space-around; flex-direction: column; align-items: center;">
                     <b>{{ item.category }}</b>
@@ -128,9 +128,9 @@
                 </div>
             </template>
         </masonry-wall>
-        
+        <div v-else>editing...</div> 
     </div>
-    <div v-else>editing...</div> 
+    <div v-else>loading...</div> 
 
 </template>
 
@@ -146,7 +146,6 @@ export default {
     data() {
         return {
             imageURL: null,
-            setup: this.$store.getters.setup(this.$route.params.setupId),
             editing: false,
             editIndex: null,
             itemToEdit: {
@@ -239,9 +238,9 @@ export default {
         },
     },
     computed: {
-        // setup() {
-        //     return this.$store.getters.setup(this.$route.params.setupId)
-        // },
+        setup() {
+            return this.$store.getters.setup(this.$route.params.setupId)
+        },
         itemHasChanges() {
             const fieldsToOmit = ['x', 'y'];
             
@@ -257,7 +256,9 @@ export default {
         
         },
         itemMarkersToDisplay() {
-            return this.editing ? [this.itemToEdit] : this.setup.items;
+            if (this.setup) {
+                return this.editing ? [this.itemToEdit] : this.setup.items;
+            }
         }
     }
 }
