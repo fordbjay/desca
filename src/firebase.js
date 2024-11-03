@@ -48,7 +48,7 @@ function login(callback) {
 
 }
 function logOut() {
-    signOut(auth).then(() => location.reload())
+    signOut(auth).then(() => location.replace('/'))
 }
 
 // MANAGE PIC

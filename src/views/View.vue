@@ -105,7 +105,7 @@
         },
         computed: {
             items() {
-                return this.$store.state.viewingSetup.items
+                return this.$store.state.viewingSetup?.items
             },
             itemMarkersToDisplay() {
                 return this.viewing ? [this.selectedItem] : this.items;

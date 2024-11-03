@@ -207,6 +207,7 @@ export default {
             [reorderItems[index], reorderItems[newIndex]] = [reorderItems[newIndex], reorderItems[index]];
 
             this.$store.dispatch('reorderItem', { setupId: this.setup.setupId, reorderItems: reorderItems });
+            
         },
         resetItem() {
             this.editing = false;

@@ -196,4 +196,11 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
+// FOR NAVBAR CREATION WHEN USER LOGGED OUT
+export async function fetchUserDetails(userId) {
+  if (!store.getters.userDetails(userId)) await store.dispatch('fetchUserDetails', userId)
+
+  return store.getters.userDetails(userId)
+}
+
 export default store
