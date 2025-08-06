@@ -15,30 +15,49 @@
 
     </div>
 
+  <div class="scrolling-columns-wrapper">
 
-<!-- ITEMS SCROLLING -->
-    <div class="items-list-container">
-      <div class="scrolling-content">
-        <!-- Repeat the icons twice for smooth loop -->
-        <template v-for="i in 2" :key="i">
-          <img src="/item-icons/accessory.svg" alt="accessory">
-          <img src="/item-icons/chair.svg" alt="chair">
-          <img src="/item-icons/computer.svg" alt="computer">
-          <img src="/item-icons/desk.svg" alt="desk">
-          <img src="/item-icons/headset.svg" alt="headset">
-          <img src="/item-icons/keyboard.svg" alt="keyboard">
-          <img src="/item-icons/microphone.svg" alt="microphone">
-          <img src="/item-icons/monitor.svg" alt="monitor">
-          <img src="/item-icons/mouse.svg" alt="mouse">
-          <img src="/item-icons/speaker.svg" alt="speaker">
-          <img src="/item-icons/webcam.svg" alt="webcam">
-        </template>
+      <!-- ITEMS SCROLLING -->
+      <div class="items-list-container">
+        <div class="scrolling-items">
+          <!-- Repeat the icons twice for smooth loop -->
+          <template v-for="i in 2" :key="i">
+            <img class="item" src="/item-icons/accessory.svg" alt="accessory">
+            <img class="item" src="/item-icons/chair.svg" alt="chair">
+            <img class="item" src="/item-icons/computer.svg" alt="computer">
+            <img class="item" src="/item-icons/desk.svg" alt="desk">
+            <img class="item" src="/item-icons/headset.svg" alt="headset">
+            <img class="item" src="/item-icons/keyboard.svg" alt="keyboard">
+            <img class="item" src="/item-icons/microphone.svg" alt="microphone">
+            <img class="item" src="/item-icons/monitor.svg" alt="monitor">
+            <img class="item" src="/item-icons/mouse.svg" alt="mouse">
+            <img class="item" src="/item-icons/speaker.svg" alt="speaker">
+            <img class="item" src="/item-icons/webcam.svg" alt="webcam">
+          </template>
+        </div>
       </div>
-    </div>
 
-
+      <div class="items-list-container">
+        <div class="scrolling-setups">
+          <!-- Repeat the icons twice for smooth loop -->
+          <template v-for="i in 2" :key="i">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-1.jpg" alt="sample-1">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-2.jpg" alt="sample-2">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-3.jpg" alt="sample-3">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-4.jpg" alt="sample-4">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-5.jpg" alt="sample-5">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-6.jpg" alt="sample-6">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-7.jpg" alt="sample-7">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-8.jpg" alt="sample-8">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-9.jpg" alt="sample-9">
+            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-10.jpg" alt="sample-10">
+          </template>
+        </div>
+      </div>
 
   </div>
+
+</div>
 
 
 </template>
@@ -106,20 +125,40 @@ button:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 
+.scrolling-columns-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid;
+  /* gap: 2rem; */
+}
+
 /* Scrolling content */
-.scrolling-content {
+.scrolling-items {
   display: flex;
   flex-direction: column;
   align-items: center;
   animation: scroll-up 30s linear infinite;
 }
 
-.scrolling-content img {
+.scrolling-setups {
+  flex-direction: column;
+  align-items: center;
+  animation: scroll-down 60s linear infinite;
+}
+
+.item {
   width: 50px;
+  margin: 20px 0;
+}
+
+.setup-pic {
+  width: 400px;
+  border-radius: 15px;
   margin: 20px 0;
 }
 
@@ -131,6 +170,15 @@ button:hover {
   100% {
     transform: translateY(-50%);
   }
+}
+
+@keyframes scroll-down {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
+  }  
 }
 
 </style>
