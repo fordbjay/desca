@@ -134,7 +134,7 @@ button:hover {
   align-items: center;
   justify-content: space-between;
   /* border: 1px solid; */
-  gap: 5rem;
+  gap: 3rem;
 }
 
 /* Scrolling content */
@@ -149,7 +149,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: scroll-down 90s linear infinite;
+  animation: scroll-down 60s linear infinite;
 }
 
 .item {
@@ -158,9 +158,14 @@ button:hover {
 }
 
 .setup-pic {
-  width: 400px;
+  width: 350px;
   border-radius: 15px;
   margin: 20px 0;
+}
+
+.scrolling-items:hover,
+.scrolling-setups:hover {
+  animation-play-state: paused;
 }
 
 /* Keyframes */
