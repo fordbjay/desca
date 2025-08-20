@@ -41,16 +41,16 @@
         <div class="scrolling-setups">
           <!-- Repeat the icons twice for smooth loop -->
           <template v-for="i in 2" :key="i">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-1.jpg" alt="sample-1">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-2.jpg" alt="sample-2">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-3.jpg" alt="sample-3">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-4.jpg" alt="sample-4">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-5.jpg" alt="sample-5">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-6.jpg" alt="sample-6">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-7.jpg" alt="sample-7">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-8.jpg" alt="sample-8">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-9.jpg" alt="sample-9">
-            <img class="setup-pic" src="/public/desk-setups-samples/sample-desk-10.jpg" alt="sample-10">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-1.jpg" alt="sample-1">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-2.jpg" alt="sample-2">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-3.jpg" alt="sample-3">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-4.jpg" alt="sample-4">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-5.jpg" alt="sample-5">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-6.jpg" alt="sample-6">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-7.jpg" alt="sample-7">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-8.jpg" alt="sample-8">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-9.jpg" alt="sample-9">
+            <img class="setup-pic" src="/desk-setups-samples/sample-desk-10.jpg" alt="sample-10">
           </template>
         </div>
       </div>
@@ -133,8 +133,8 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid;
-  /* gap: 2rem; */
+  /* border: 1px solid; */
+  gap: 5rem;
 }
 
 /* Scrolling content */
@@ -142,13 +142,14 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: scroll-up 30s linear infinite;
+  animation: scroll-up 45s linear infinite;
 }
 
 .scrolling-setups {
+  display: flex;
   flex-direction: column;
   align-items: center;
-  animation: scroll-down 60s linear infinite;
+  animation: scroll-down 90s linear infinite;
 }
 
 .item {
