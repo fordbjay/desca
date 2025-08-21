@@ -84,8 +84,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: 100vh;
+  /* width: 80%; */
+  margin: 0 20px;
+  /* height: 100vh; */
   /* border: 1px solid blue; */
+  overflow-x: hidden;
 }
 
 .action-wrapper {
@@ -135,6 +138,7 @@ button:hover {
   justify-content: space-between;
   /* border: 1px solid; */
   gap: 3rem;
+  
 }
 
 /* Scrolling content */
