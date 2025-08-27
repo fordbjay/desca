@@ -15,17 +15,36 @@
         :src="userDetails.photoURL"
         alt="User Photo"
         style="display: block; width: 75px;"
+        @click="editProfile()"
         >
         <div>{{ userDetails.profName }}</div>
     </div>
     <div v-else>loading...</div>
 
+    <profileEdit v-if="profileEditOpen"/>
+
+
 </template>
 
 <script>
+import profileEdit from "./profile-editor.vue"
 
 export default {
+    components: {
+        profileEdit
+    },
+    data() {
+            return {
+                profileEditOpen: false
+            }
+        },
     methods: {
+        editProfile() {
+            console.log('open profile editor')
+            this.profileEditOpen = !this.profileEditOpen
+        },
+
+
         logOut() {
             this.$store.dispatch('logOut')
         },
