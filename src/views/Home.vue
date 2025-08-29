@@ -11,7 +11,7 @@
         <h1>The #1 destination to share YOUR ultimate gaming, streaming or working setup</h1>
       </div>  
 
-      <button @click="logIn()">log in</button>
+      <button @click="logIn()">Start Sharing Your Setup Today! &#8594;</button>
 
     </div>
 

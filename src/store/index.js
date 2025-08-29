@@ -172,6 +172,11 @@ const store = createStore({
       context.commit('fetchViewingSetup', viewingSetup.data())
     },
 
+    // PROFILE EDITING
+    async submitChanges() {
+      console.log('submit clicked')
+    }
+
   }
 
 })
