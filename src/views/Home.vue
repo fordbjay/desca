@@ -28,10 +28,12 @@
             <img class="item" src="/item-icons/desk.svg" alt="desk">
             <img class="item" src="/item-icons/headset.svg" alt="headset">
             <img class="item" src="/item-icons/keyboard.svg" alt="keyboard">
+            <img class="item" src="/item-icons/lighting.svg" alt="lighting">
             <img class="item" src="/item-icons/microphone.svg" alt="microphone">
             <img class="item" src="/item-icons/monitor.svg" alt="monitor">
             <img class="item" src="/item-icons/mouse.svg" alt="mouse">
             <img class="item" src="/item-icons/speaker.svg" alt="speaker">
+            <img class="item" src="/item-icons/laptop.svg" alt="laptop">
             <img class="item" src="/item-icons/webcam.svg" alt="webcam">
           </template>
         </div>
@@ -96,7 +98,7 @@ export default {
   /* width: min-content; */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 }
 
 h1 {
