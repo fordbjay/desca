@@ -15,7 +15,7 @@
         :src="userDetails.photoURL"
         alt="User Photo"
         style="display: block; width: 75px;"
-        @click="editProfile()"
+        @click= "$store.state.loggedIn ? editProfile() : logIn()"
         >
         <div>{{ userDetails.profName }}</div>
     </div>
@@ -23,7 +23,7 @@
 
 
 
-    <profileEdit v-if="profileEditOpen"/>
+    <profileEdit v-if="profileEditOpen" :editProfileDetails="editProfileDetails"/>
 
 
     
@@ -33,17 +33,23 @@
 <script>
 import profileEdit from "./profile-editor.vue"
 
+function copy(value) {
+  return JSON.parse(JSON.stringify(value))
+}
+
 export default {
     components: {
         profileEdit
     },
     data() {
             return {
-                profileEditOpen: false
+                profileEditOpen: false,
+                editProfileDetails: null,
             }
         },
     methods: {
         editProfile() {
+            this.editProfileDetails = copy(this.userDetails)
             console.log('open profile editor')
             this.profileEditOpen = !this.profileEditOpen
         },
@@ -58,7 +64,7 @@ export default {
     },
     computed: {
         userDetails() {
-            return this.$store.getters.getuserDetails(this.$route.params.user)
+            return this.$store.getters.getUserDetails(this.$route.params.user)
         },
         computedRoute() {
             const uid = this.$store.state.user?.uid;

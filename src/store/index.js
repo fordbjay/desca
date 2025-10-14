@@ -29,7 +29,7 @@ const store = createStore({
     setup: state => setupId => {
       return state.setups.find(s => s.setupId === setupId)
     },
-    getuserDetails: state => user => {
+    getUserDetails: state => user => {
       return state.userDetails[user]
     },
   },
@@ -97,6 +97,7 @@ const store = createStore({
         await router.push(`/setups/${context.state.user.uid}`)
         context.commit('setLoaded')
       })
+      console.log(this.userDetails)
     },
     setUserDetails(context, { details, user }) {
       context.commit('setUserDetails', { details, user })
@@ -120,7 +121,15 @@ const store = createStore({
         const userDetails = {
           user: uid,
           profName: displayName,
-          photoURL: photoURL
+          photoURL: photoURL,
+          socials: {
+            twitch: '',
+            twitter: '',
+            youtube: '',
+            discord: '',
+            facebook: '',
+            website: '',
+          },
         }
 
         context.dispatch('setUserDetails', { details: userDetails, user } )

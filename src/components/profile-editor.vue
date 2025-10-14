@@ -3,11 +3,11 @@
     <div class="main-container">
 
         <img
-            :src="userDetails.photoURL"
+            :src="editProfileDetails.photoURL"
             alt="User Photo"
             style="display: block; width: 75px;"
         >
-        <div>{{ userDetails.profName }}</div>
+        <div>{{ editProfileDetails.profName }}</div>
         
 
         <div class="social-input">
@@ -18,7 +18,7 @@
 
         <div class="social-input" v-for="social in socials">
             <p>{{social}}</p>
-            <input type="text" name="{{ social }}">
+            <input type="text" :name="social" v-model="editProfileDetails.socialLinks[social]">
         </div>
 
 
@@ -34,12 +34,19 @@
 <script>
 
 export default {
+    props: {
+        editProfileDetails: {
+            type: Object,
+        }
+
+    },
     components: {
         
     },
     data() {
             return {
-                socials: ['x','facebook','youtube','website']
+                socials: ['x','facebook','youtube','website'],
+
             }
         },
     methods: {
@@ -48,13 +55,10 @@ export default {
         },
         submitChanges() {
             this.$store.dispatch('submitChanges')
+            console.log(this.editProfileDetails)
         }
     },
-    computed: {
-        userDetails() {
-            return this.$store.getters.getuserDetails(this.$route.params.user)
-        },
-    }
+
 }
 
 </script>
