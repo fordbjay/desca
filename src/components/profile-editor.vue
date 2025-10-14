@@ -12,7 +12,7 @@
 
         <div class="social-input">
             <p>username</p>
-            <input type="text">
+            <input type="text" v-model="editProfileDetails.profName">
         </div>
 
 
@@ -53,9 +53,9 @@ export default {
         logOut() {
             this.$store.dispatch('logOut')
         },
-        submitChanges() {
-            this.$store.dispatch('submitChanges')
+        submitChanges() {            
             console.log(this.editProfileDetails)
+            this.$store.dispatch('submitChanges')
         }
     },
 
