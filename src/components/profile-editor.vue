@@ -27,6 +27,8 @@
             <button @click="logOut()">log out</button>
         </div>
 
+        <p v-if="saveClicked">{{ this.message}}</p>
+
     </div>
 
 </template>
@@ -47,6 +49,8 @@ export default {
             return {
                 socials: ['x','facebook','youtube','website', 'discord','twitch',],
                 originalDetails: null,
+                saveClicked: false,
+                message: 'test'
             }
         },
     methods: {
@@ -61,13 +65,25 @@ export default {
             const isSame = JSON.stringify(prevDetails) === JSON.stringify(newDetails)
 
             if (isSame) {
-                console.log('No changes detected')
+                this.message = 'no changes'
+                
             } else {
                 this.$store.dispatch('submitChanges', { 
-                details: newDetails, 
-                user: this.$store.state.user.uid
+                    details: newDetails, 
+                    user: this.$store.state.user.uid                
                 })
+                this.message = 'changes saved'
+                this.originalDetails = JSON.parse(JSON.stringify(newDetails))
+
             }
+
+            this.saveClicked = true
+            setTimeout(() => { 
+                this.saveClicked = false, 
+                this.message = 'changes saved'
+            }, 
+            2000
+            )
         }
     },
     mounted() {
