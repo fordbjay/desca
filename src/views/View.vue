@@ -1,7 +1,5 @@
 <template>
 
-    <navBar/>
-
     <div 
         class="main-image"
         v-if="imageURL"
@@ -77,7 +75,6 @@
 
 <script>
     import { downloadPic } from '../firebase.js'
-    import navBar from '../components/nav-bar.vue'
     import MasonryWall from '@yeger/vue-masonry-wall'
 
     export default {
@@ -89,7 +86,7 @@
             const key = `${this.$route.params.user}/${routerAddress}`
             this.imageURL = await downloadPic(key)
         },
-        components: { navBar, MasonryWall },
+        components: { MasonryWall },
         data() {
             return {
                 imageURL: null,

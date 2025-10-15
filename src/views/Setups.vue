@@ -1,7 +1,5 @@
 <template>
     
-    <navBar/>
-
     <!-- UPLOAD BUTTON -->
     <span>{{uploadProgress}}</span>
     <input
@@ -31,7 +29,6 @@
 </template>
 
 <script>
-    import navBar from '../components/nav-bar.vue'
     import {uploadPic, downloadPic} from "../firebase"
 
     export default {
@@ -40,7 +37,7 @@
                 uploading: false
             }
         },
-        components: { navBar },
+        components: { },
         methods: {
             async makeNewSetup(event) {
                 this.uploading = true
