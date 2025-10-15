@@ -64,7 +64,6 @@ export default {
             const newDetails = this.editProfileDetails
             const prevDetails = this.originalDetails
 
-            // Deep compare cloned vs. edited object
             const isSame = JSON.stringify(prevDetails) === JSON.stringify(newDetails)
 
             if (isSame) {
@@ -90,7 +89,6 @@ export default {
         }
     },
     mounted() {
-        // Store a deep clone of the original data for comparison
         this.originalDetails = JSON.parse(JSON.stringify(this.editProfileDetails))
     },
 
@@ -101,7 +99,12 @@ export default {
 <style scoped>
 
 .main-container {
-    position: relative;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+
     border: 1px solid;
     width: max-content;
     display: flex;

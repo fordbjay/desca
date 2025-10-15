@@ -7,8 +7,7 @@
     style="display: block; width: 75px;"
     @click= "$store.state.loggedIn ? editProfile() : logIn()"
     >
-    <div>{{ userDetails.profName }}</div>
-    <div>{{  }}</div>
+    <!-- <div>{{ userDetails.profName }}</div> -->
 </div>
 <div v-else>loading...</div>
 

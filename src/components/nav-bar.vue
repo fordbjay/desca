@@ -1,18 +1,18 @@
 <template>
-    
-    <img src="/desca-logo.png" alt="logo" style="width: 150px; display: block;">
 
-    <button v-if="$route.name != 'Setups'" @click="goToSetups()">setups</button>
+    <div class="main-container">
+        <img src="/desca-logo.png" alt="logo" style="width: 150px; display: block;">
 
-    <router-link :to="computedRoute">
-        <button v-if="$route.name != 'Setups'">
-            {{$route.name === 'Edit' ? 'view' : 'edit'}}
-        </button>
-    </router-link>
+        <button v-if="$route.name != 'Setups'" @click="goToSetups()">setups</button>
 
+        <router-link :to="computedRoute">
+            <button v-if="$route.name != 'Setups'">
+                {{$route.name === 'Edit' ? 'view' : 'edit'}}
+            </button>
+        </router-link>
 
-    <profileHeader/>
-
+        <profileHeader/>
+    </div>
 
     
 
@@ -54,3 +54,14 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+</style>
