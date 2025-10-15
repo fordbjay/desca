@@ -90,6 +90,7 @@ export default {
   /* height: 100vh; */
   /* border: 1px solid blue; */
   overflow-x: hidden;
+  /* background-color: purple; */
 }
 
 .action-wrapper {
@@ -160,6 +161,7 @@ button:hover {
 .item {
   width: 50px;
   margin: 20px 0;
+  background: transparent;
 }
 
 .setup-pic {
