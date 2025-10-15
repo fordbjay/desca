@@ -2,6 +2,9 @@
 
     <div class="main-container">
 
+        <p class="close-btn" @click="$emit('close')">&times;</p>
+
+
         <img
             :src="editProfileDetails.photoURL"
             alt="User Photo"
@@ -98,6 +101,7 @@ export default {
 <style scoped>
 
 .main-container {
+    position: relative;
     border: 1px solid;
     width: max-content;
     display: flex;
@@ -108,6 +112,14 @@ export default {
 .social-input {
     display: flex;
     align-items: center;
+}
+
+.close-btn {
+    position: absolute;
+    font-size: 30px;
+    cursor: pointer;
+    right: 5px;
+    user-select: none;
 }
 
 
