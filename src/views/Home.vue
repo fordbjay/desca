@@ -85,24 +85,16 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  /* width: 80%; */
   margin: 0 20px;
-  /* height: 100vh; */
-  /* border: 1px solid blue; */
   overflow-x: hidden;
-  /* background-color: purple; */
 }
 
 .action-wrapper {
-  /* border: 1px solid; */
-  /* width: min-content; */
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 }
 
 h1 {
-  /* border: 1px solid; */
   margin-top: 10px;
   margin-bottom: 35px;
   width: 450px;
@@ -138,7 +130,6 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* border: 1px solid; */
   gap: 3rem;
   
 }
