@@ -84,6 +84,10 @@ const store = createStore({
     fetchViewingSetup(state, viewingSetup) {
       state.viewingSetup = viewingSetup
     },
+    // PROFILE MUTATIONS
+    setProfDetails(state, { details, user }) {
+      state.userDetails[user] = details
+    },
 
   },
   actions: {
@@ -182,8 +186,11 @@ const store = createStore({
     },
 
     // PROFILE EDITING
-    async submitChanges() {
+    async submitChanges(context, {details, user}) {
       console.log('submit clicked')
+      console.log(details, user)
+      context.commit('setProfDetails', { details, user })
+      setDoc(doc(db, "userDetails", user), details);
     }
 
   }

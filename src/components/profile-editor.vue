@@ -53,9 +53,11 @@ export default {
         logOut() {
             this.$store.dispatch('logOut')
         },
-        submitChanges() {            
-            console.log(this.editProfileDetails)
-            this.$store.dispatch('submitChanges')
+        submitChanges() {
+            this.$store.dispatch('submitChanges', { 
+                details: this.editProfileDetails, 
+                user: this.$store.state.user.uid
+            })
         }
     },
 
