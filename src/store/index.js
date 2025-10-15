@@ -128,7 +128,7 @@ const store = createStore({
           photoURL: photoURL,
           socials: {
             twitch: '',
-            twitter: '',
+            x: '',
             youtube: '',
             discord: '',
             facebook: '',
@@ -187,8 +187,7 @@ const store = createStore({
 
     // PROFILE EDITING
     async submitChanges(context, {details, user}) {
-      console.log('submit clicked')
-      console.log(details, user)
+      console.log('changes saved')
       context.commit('setProfDetails', { details, user })
       setDoc(doc(db, "userDetails", user), details);
     }

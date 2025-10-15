@@ -45,8 +45,8 @@ export default {
     },
     data() {
             return {
-                socials: ['x','facebook','youtube','website'],
-
+                socials: ['x','facebook','youtube','website', 'discord','twitch',],
+                originalDetails: null,
             }
         },
     methods: {
@@ -54,11 +54,25 @@ export default {
             this.$store.dispatch('logOut')
         },
         submitChanges() {
-            this.$store.dispatch('submitChanges', { 
-                details: this.editProfileDetails, 
+            const newDetails = this.editProfileDetails
+            const prevDetails = this.originalDetails
+
+            // Deep compare cloned vs. edited object
+            const isSame = JSON.stringify(prevDetails) === JSON.stringify(newDetails)
+
+            if (isSame) {
+                console.log('No changes detected')
+            } else {
+                this.$store.dispatch('submitChanges', { 
+                details: newDetails, 
                 user: this.$store.state.user.uid
-            })
+                })
+            }
         }
+    },
+    mounted() {
+        // Store a deep clone of the original data for comparison
+        this.originalDetails = JSON.parse(JSON.stringify(this.editProfileDetails))
     },
 
 }
